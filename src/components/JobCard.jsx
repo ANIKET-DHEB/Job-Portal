@@ -1,13 +1,13 @@
 import "../styles/JobCard.css";
 import { useNavigate } from "react-router-dom";
 import { FaBuilding, FaMapMarkerAlt, FaMoneyBillWave, FaBriefcase } from "react-icons/fa";
-function JobCard({ title, company, location, salary, type }) {
+function JobCard({ title, company, location, salary, type, route }) {
 
   const navigate = useNavigate();
 
-  function handleViewDetails() {
-    navigate("/jobs/1");
-  }
+function handleViewDetails() {
+  navigate(route);
+}
   return (
     <div className="job-card">
 
@@ -42,9 +42,14 @@ function JobCard({ title, company, location, salary, type }) {
           View Details
         </button>
 
-        <button className="apply-btn">
-          Apply
-        </button>
+    
+
+      <button
+      className="apply-btn"
+       onClick={() => navigate("/apply")}
+       >
+         Apply Now
+     </button>
       </div>
 
     </div>

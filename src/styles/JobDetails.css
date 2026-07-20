@@ -97,3 +97,29 @@
   color: #2563eb;
   font-size: 18px;
 }
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  color: #475569;
+  font-size: 16px;
+}
+
+.check-icon {
+  color: #22c55e;
+  font-size: 18px;
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
