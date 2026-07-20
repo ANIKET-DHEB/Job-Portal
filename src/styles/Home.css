@@ -1,0 +1,71 @@
+.hero{
+    height:50vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f4f7fc;
+    padding-top: 30px;
+}
+
+.hero-content{
+    text-align:center;
+}
+
+.hero-content h1{
+    font-size:55px;
+    color:#2563eb;
+}
+
+.hero-content p{
+    margin-top:20px;
+    font-size:20px;
+    color:#555;
+}
+
+.search-box{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.search-box input{
+    width:350px;
+    padding:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.search-box button{
+    padding:15px 25px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.search-box button:hover{
+    background:#1d4ed8;
+}
+
+.featured-jobs {
+  padding: 80px 8%;
+  background: #f8fafc;
+  padding-top: 0px;
+}
+
+.featured-jobs h2 {
+  text-align: center;
+  font-size: 42px;
+  color: #1e293b;
+  margin-bottom: 50px;
+}
+
+.job-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
