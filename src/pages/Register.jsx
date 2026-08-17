@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/Register.css";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -24,24 +27,46 @@ function Register() {
     });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    alert("Registration Successful 🎉");
+    // Password Match Check
+    if (user.password !== user.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-    console.log(user);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+        }
+      );
 
-    setUser({
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-      qualification: "",
-      skills: "",
-      gender: "",
-      terms: false,
-    });
+      alert(res.data.message);
+
+      setUser({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        qualification: "",
+        skills: "",
+        gender: "",
+        terms: false,
+      });
+
+      navigate("/login");
+
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Registration Failed"
+      );
+    }
   }
 
   return (
@@ -132,6 +157,7 @@ function Register() {
           <label>Gender</label>
 
           <div className="gender-group">
+
             <label>
               <input
                 type="radio"
@@ -164,6 +190,7 @@ function Register() {
               />
               Other
             </label>
+
           </div>
 
           <label className="terms">
@@ -177,7 +204,10 @@ function Register() {
             I agree to the Terms & Conditions
           </label>
 
-          <button type="submit"    className="login-btn">
+          <button
+            type="submit"
+            className="login-btn"
+          >
             Create Account
           </button>
 

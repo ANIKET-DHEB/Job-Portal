@@ -1,61 +1,355 @@
-.apply-container{
-    max-width:750px;
-    margin:50px auto;
-    background:#fff;
-    padding:35px;
-    border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
+/* =========================================
+   APPLY JOB PAGE
+========================================= */
+
+.apply-page {
+    min-height: calc(100vh - 80px);
+
+    padding: 45px 20px 70px;
+
+    background: #f4f7fc;
 }
 
-.apply-container h1{
-    text-align:center;
-    margin-bottom:30px;
-    color:#2563eb;
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.apply-container {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding: 40px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
 }
 
-.apply-form{
-    display:flex;
-    flex-direction:column;
+
+/* =========================================
+   HEADER
+========================================= */
+
+.apply-container h1 {
+    margin: 0 0 30px;
+
+    text-align: center;
+
+    color: #0f172a;
+
+    font-size: 36px;
+    font-weight: 750;
 }
 
-.apply-form label{
-    font-weight:600;
-    margin-top:15px;
-    margin-bottom:8px;
+
+/* =========================================
+   FORM
+========================================= */
+
+.apply-form {
+    display: flex;
+    flex-direction: column;
 }
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.apply-form label {
+    margin-bottom: 8px;
+
+    color: #334155;
+
+    font-size: 15px;
+    font-weight: 650;
+}
+
+
+/* =========================================
+   INPUT / SELECT / TEXTAREA
+========================================= */
 
 .apply-form input,
 .apply-form select,
-.apply-form textarea{
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    outline:none;
-    font-size:16px;
+.apply-form textarea {
+    width: 100%;
+
+    margin-bottom: 20px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #dbe4f0;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.25s ease;
 }
+
+
+.apply-form input,
+.apply-form select {
+    height: 50px;
+}
+
+
+.apply-form textarea {
+    min-height: 130px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   FOCUS
+========================================= */
 
 .apply-form input:focus,
 .apply-form select:focus,
-.apply-form textarea:focus{
-    border:1px solid #2563eb;
+.apply-form textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
 }
 
-.apply-form textarea{
-    resize:none;
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.apply-form input::placeholder,
+.apply-form textarea::placeholder {
+    color: #94a3b8;
 }
 
-.apply-form button{
-    margin-top:25px;
-    padding:14px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
-    transition:.3s;
+
+/* =========================================
+   FILE INPUT
+========================================= */
+
+.apply-form input[type="file"] {
+    height: auto;
+
+    padding: 10px;
+
+    background: #f8fafc;
+
+    cursor: pointer;
 }
 
-.apply-form button:hover{
-    background:#1d4ed8;
+
+.apply-form input[type="file"]::file-selector-button {
+    margin-right: 12px;
+
+    padding: 9px 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-family: inherit;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.apply-form input[type="file"]::file-selector-button:hover {
+    background: #dbeafe;
+}
+
+
+/* =========================================
+   RESUME SUCCESS TEXT
+========================================= */
+
+.apply-form p {
+    margin-top: -12px;
+    margin-bottom: 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.apply-form button[type="submit"] {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 15px;
+
+    border: none;
+    border-radius: 11px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.apply-form button[type="submit"]:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+
+.apply-form button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark .apply-page {
+    background: #0f172a;
+}
+
+
+body.dark .apply-container {
+    background: #1e293b;
+
+    border-color: #334155;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+body.dark .apply-container h1 {
+    color: #f8fafc;
+}
+
+
+body.dark .apply-form label {
+    color: #e2e8f0;
+}
+
+
+body.dark .apply-form input,
+body.dark .apply-form select,
+body.dark .apply-form textarea {
+    background: #334155;
+
+    border-color: #475569;
+
+    color: #ffffff;
+}
+
+
+body.dark .apply-form input::placeholder,
+body.dark .apply-form textarea::placeholder {
+    color: #94a3b8;
+}
+
+
+body.dark .apply-form input[type="file"] {
+    background: #334155;
+}
+
+
+body.dark .apply-form input[type="file"]::file-selector-button {
+    background: #1e3a8a;
+
+    color: #bfdbfe;
+}
+
+
+body.dark .apply-form input[type="file"]::file-selector-button:hover {
+    background: #1e40af;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .apply-page {
+        padding: 30px 15px 50px;
+    }
+
+    .apply-container {
+        padding: 30px 25px;
+
+        border-radius: 18px;
+    }
+
+    .apply-container h1 {
+        font-size: 30px;
+
+        margin-bottom: 25px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .apply-page {
+        padding: 20px 10px 40px;
+    }
+
+    .apply-container {
+        padding: 25px 18px;
+
+        border-radius: 16px;
+    }
+
+    .apply-container h1 {
+        font-size: 26px;
+    }
+
+    .apply-form input,
+    .apply-form select,
+    .apply-form textarea {
+        font-size: 14px;
+    }
+
+    .apply-form button[type="submit"] {
+        font-size: 16px;
+    }
 }

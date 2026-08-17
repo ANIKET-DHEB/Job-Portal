@@ -1,0 +1,218 @@
+/* =========================================
+   SAVED JOBS
+========================================= */
+
+.saved-container {
+    width: 92%;
+    max-width: 1250px;
+
+    margin: 40px auto 70px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.saved-container h1 {
+    margin: 0 0 50px;
+
+    text-align: center;
+
+    color: #0f172a;
+
+    font-size: 36px;
+    font-weight: 750;
+}
+
+.saved-container > p {
+    margin-bottom: 35px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   SAVED JOB GRID
+========================================= */
+
+.saved-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.saved-empty {
+    max-width: 600px;
+
+    margin: 50px auto;
+
+    padding: 55px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.saved-empty h2 {
+    margin-bottom: 10px;
+
+    color: #0f172a;
+
+    font-size: 25px;
+}
+
+.saved-empty p {
+    margin-bottom: 25px;
+
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+.saved-empty button {
+    padding: 12px 24px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.saved-empty button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.20);
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark .saved-container h1 {
+    color: #f8fafc;
+}
+
+body.dark .saved-container > p {
+    color: #cbd5e1;
+}
+
+body.dark .saved-empty {
+    background: #1e293b;
+
+    border-color: #334155;
+}
+
+body.dark .saved-empty h2 {
+    color: #f8fafc;
+}
+
+body.dark .saved-empty p {
+    color: #cbd5e1;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .saved-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .saved-container {
+        width: 92%;
+
+        margin: 30px auto 50px;
+    }
+
+    .saved-container h1 {
+        font-size: 30px;
+    }
+
+    .saved-container > p {
+        font-size: 14px;
+
+        margin-bottom: 28px;
+    }
+
+    .saved-grid {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .saved-empty {
+        margin: 35px auto;
+
+        padding: 45px 22px;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .saved-container {
+        width: 94%;
+    }
+
+    .saved-container h1 {
+        font-size: 26px;
+    }
+
+    .saved-empty {
+        padding: 40px 18px;
+    }
+
+    .saved-empty h2 {
+        font-size: 21px;
+    }
+}

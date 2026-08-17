@@ -1,0 +1,267 @@
+/* ===========================
+   USER PROFILE
+=========================== */
+
+.user-profile-page {
+  min-height: 100vh;
+  background: #f1f5f9;
+  padding: 40px 20px;
+}
+
+.profile-banner {
+  height: 220px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa);
+  margin-bottom: -90px;
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+}
+
+.profile-card {
+  max-width: 1000px;
+  margin: auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+  position: relative;
+  text-align: center;
+}
+
+.profile-image {
+  margin-top: -110px;
+}
+
+.profile-image img {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+}
+
+.profile-card h1 {
+  margin-top: 18px;
+  color: #0f172a;
+  font-size: 34px;
+}
+
+.designation {
+  color: #64748b;
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+/* ===========================
+   EDIT BUTTON
+=========================== */
+
+.edit-btn {
+  margin-top: 20px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  transition: .3s;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-3px);
+}
+
+/* ===========================
+   INFO GRID
+=========================== */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 14px;
+  transition: .3s;
+}
+
+.info-box:hover {
+  transform: translateY(-4px);
+  background: #eff6ff;
+}
+
+.info-box svg {
+  color: #2563eb;
+  font-size: 22px;
+  min-width: 22px;
+}
+
+.info-box span {
+  color: #334155;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* ===========================
+   ABOUT
+=========================== */
+
+.about-box,
+.links-box {
+  margin-top: 40px;
+  text-align: left;
+}
+
+.about-box h2,
+.links-box h2 {
+  color: #1e293b;
+  margin-bottom: 15px;
+}
+
+.about-box p {
+  color: #475569;
+  line-height: 1.8;
+}
+
+/* ===========================
+   LINKS
+=========================== */
+
+.links-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.links-box a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  text-decoration: none;
+
+  background: #f8fafc;
+  color: #2563eb;
+
+  padding: 16px 18px;
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  transition: .3s;
+
+  border: 1px solid #e2e8f0;
+
+  overflow: hidden;
+}
+
+.links-box a svg {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.links-box a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.links-box a:hover {
+  background: #2563eb;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, .25);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:768px) {
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    padding: 25px;
+  }
+
+  .profile-card h1 {
+    font-size: 28px;
+  }
+
+  .profile-image img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .profile-banner {
+    height: 180px;
+  }
+
+  .links-box a {
+    font-size: 15px;
+    padding: 14px;
+  }
+
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark .user-profile-page {
+  background: #0f172a;
+}
+
+body.dark .profile-card {
+  background: #1e293b;
+}
+
+body.dark .profile-card h1,
+body.dark .about-box h2,
+body.dark .links-box h2 {
+  color: white;
+}
+
+body.dark .designation,
+body.dark .about-box p,
+body.dark .info-box span {
+  color: #cbd5e1;
+}
+
+body.dark .info-box {
+  background: #334155;
+}
+
+body.dark .info-box:hover {
+  background: #475569;
+}
+
+body.dark .links-box a {
+  background: #334155;
+  color: #93c5fd;
+  border-color: #475569;
+}
+
+body.dark .links-box a:hover {
+  background: #2563eb;
+  color: white;
+}

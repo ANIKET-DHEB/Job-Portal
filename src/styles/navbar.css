@@ -1,31 +1,593 @@
 
+/* =========================================
+   NAVBAR
+========================================= */
 
-nav {
-  background-color: #2563eb;
-  color: white;
-  padding: 15px 50px;
-
+.navbar {
+  width: 100%;
+  min-height: 72px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: #2563eb;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.15);
 }
 
-nav h2 {
-  font-size: 28px;
-}
+/* =========================================
+   LOGO
+========================================= */
 
-nav div {
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
   display: flex;
-  gap: 25px;
-}
+  align-items: center;
 
-nav a {
-  color: white;
+
   text-decoration: none;
-  font-size: 18px;
-  transition: 0.3s;
+  flex-shrink: 0;
+
+  color: #ffffff;
 }
 
-nav a:hover {
-  color: #ffd700;
+.logo img {
+  width: 58px;
+  height: 48px;
+
+  object-fit: contain;
+  display: block;
+}
+
+.logo a {
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.logo:hover a {
+  color: #ffffff;
+}
+.logo:hover,
+.logo:focus,
+.logo:active {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.logo:hover img {
+  transform: scale(1.03);
+}
+
+/* If you have separate Job Portal text */
+
+.logo span {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* =========================================
+   NAVIGATION LINKS
+========================================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.nav-links a.active {
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.nav-links a.active:hover {
+  background: #ffffff;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.nav-links a svg {
+  font-size: 15px;
+}
+
+.saved-link {
+  border-radius: 10px;
+}
+
+/* =========================================
+   USER MENU
+========================================= */
+
+.user-menu {
+  position: relative;
+  margin-left: 8px;
+}
+
+.user-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 6px 7px;
+  border: none;
+  border-radius: 50px;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.user-menu-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 65px;
+  line-height: 1.1;
+}
+
+.user-info h4 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.user-info p {
+  margin: 3px 0 0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.user-arrow {
+  margin-left: 2px;
+  color: #64748b;
+  font-size: 11px;
+  transition: transform 0.25s ease;
+}
+
+.user-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+/* =========================================
+   USER DROPDOWN
+========================================= */
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 230px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  z-index: 1100;
+}
+
+.user-dropdown a,
+.user-dropdown button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 13px 17px;
+  border: none;
+  background: transparent;
+  color: #334155;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.user-dropdown a.dropdown-active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.user-dropdown a.dropdown-active:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.user-dropdown svg {
+  width: 16px;
+  font-size: 15px;
+}
+
+/* =========================================
+   THEME TOGGLE
+========================================= */
+
+.theme-btn {
+  margin-left: 14px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.toggle {
+  width: 62px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 50px;
+  background: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: background 0.3s ease;
+}
+
+.toggle-circle {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 14px;
+  transform: translateX(0);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.toggle.active {
+  background: #0f172a;
+}
+
+.toggle.active .toggle-circle {
+  transform: translateX(32px);
+  background: #1e293b;
+}
+
+/* =========================================
+   HAMBURGER
+========================================= */
+
+.hamburger {
+  display: none;
+  color: #ffffff;
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.08);
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark .navbar {
+  background: #111827;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .nav-links a {
+  color: #f8fafc;
+}
+
+body.dark .nav-links a:hover {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+body.dark .nav-links a.active {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .nav-links a.active:hover {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+body.dark .user-menu-btn {
+  background: #1e293b;
+}
+
+body.dark .user-info h4 {
+  color: #ffffff;
+}
+
+body.dark .user-info p {
+  color: #94a3b8;
+}
+
+body.dark .user-arrow {
+  color: #cbd5e1;
+}
+
+body.dark .user-dropdown {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark .user-dropdown a,
+body.dark .user-dropdown button {
+  color: #e2e8f0;
+}
+
+body.dark .user-dropdown a:hover,
+body.dark .user-dropdown button:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+body.dark .user-dropdown a.dropdown-active {
+  background: #1e3a8a;
+  color: #93c5fd;
+}
+
+body.dark .user-dropdown a.dropdown-active:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .navbar {
+    padding: 12px 22px;
+  }
+
+  .logo {
+    width: 155px;
+    height: 55px;
+  }
+
+  .logo img {
+    width: 140px;
+    height: 50px;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 9px 10px;
+    font-size: 14px;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .user-menu-btn {
+    padding-right: 8px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    min-height: 68px;
+    padding: 10px 18px;
+  }
+
+  .logo {
+    width: 135px;
+    height: 50px;
+  }
+
+  .logo img {
+    width: 130px;
+    height: 46px;
+  }
+
+  .theme-btn {
+    margin-left: auto;
+    margin-right: 14px;
+  }
+
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* MOBILE NAV */
+
+  .nav-links {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding: 15px;
+    background: #2563eb;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+    transform: translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-links a {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 13px 16px;
+    border-radius: 10px;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: none;
+  }
+
+  .nav-links a.active {
+    background: #ffffff;
+    color: #2563eb;
+    transform: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .user-menu {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .user-menu-btn {
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: 12px;
+    padding: 8px 12px;
+  }
+
+  .user-info {
+    display: flex;
+  }
+
+  .user-arrow {
+    margin-left: auto;
+  }
+
+  .user-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  body.dark .nav-links {
+    background: #111827;
+  }
+
+  body.dark .nav-links a.active {
+    background: #2563eb;
+    color: #ffffff;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 14px;
+  }
+
+  .logo {
+    width: 115px;
+    height: 46px;
+  }
+
+  .logo img {
+    width: 110px;
+    height: 42px;
+  }
+
+  .toggle {
+    width: 58px;
+    height: 29px;
+  }
+
+  .toggle.active .toggle-circle {
+    transform: translateX(28px);
+  }
+
+  .user-info {
+    display: flex;
+  }
+
+  .user-info h4 {
+    font-size: 13px;
+  }
+
+  .user-info p {
+    font-size: 10px;
+  }
 }

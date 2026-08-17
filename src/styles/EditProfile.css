@@ -1,0 +1,153 @@
+/* ==========================
+   EDIT PROFILE
+========================== */
+
+.edit-profile-page {
+  min-height: 100vh;
+  background: #f1f5f9;
+  padding: 50px 20px;
+}
+
+.edit-profile-card {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.08);
+}
+
+.edit-profile-card h1 {
+  text-align: center;
+  color: #1e293b;
+  font-size: 34px;
+}
+
+.edit-profile-card p {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 35px;
+}
+
+.edit-profile-card form {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 14px;
+  border: 1px solid #dbe3ea;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: .3s;
+  outline: none;
+  background: #fff;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.15);
+}
+
+.form-group:nth-child(8) {
+  grid-column: 1 / -1;
+}
+
+.save-btn {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.save-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media(max-width:768px){
+
+.edit-profile-card{
+padding:25px;
+}
+
+.edit-profile-card form{
+grid-template-columns:1fr;
+}
+
+.form-group:nth-child(8){
+grid-column:auto;
+}
+
+.save-btn{
+grid-column:auto;
+}
+
+}
+
+/* ==========================
+   Dark Mode
+========================== */
+
+body.dark .edit-profile-page{
+background:#0f172a;
+}
+
+body.dark .edit-profile-card{
+background:#1e293b;
+}
+
+body.dark .edit-profile-card h1{
+color:#fff;
+}
+
+body.dark .edit-profile-card p,
+body.dark .form-group label{
+color:#cbd5e1;
+}
+
+body.dark .form-group input,
+body.dark .form-group textarea{
+background:#334155;
+border:1px solid #475569;
+color:#fff;
+}
+
+body.dark .form-group input:focus,
+body.dark .form-group textarea:focus{
+border-color:#3b82f6;
+}
+
+body.dark .save-btn{
+background:#2563eb;
+}

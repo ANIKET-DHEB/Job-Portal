@@ -1,0 +1,472 @@
+/* ===========================================
+   GLOBAL DARK MODE
+=========================================== */
+
+body.dark {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+body.dark * {
+  transition: background 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* ===========================================
+   NAVBAR
+=========================================== */
+
+body.dark .navbar {
+  background: #111827;
+  box-shadow: 0 5px 20px rgba(0,0,0,.45);
+}
+
+body.dark .nav-links {
+  background: #111827;
+}
+
+body.dark .nav-links a {
+  color: #f8fafc;
+}
+
+body.dark .nav-links a:hover {
+  color: #60a5fa;
+}
+
+
+
+body.dark .saved-link:hover {
+  background: #2563eb;
+  color: white;
+}
+
+body.dark .theme-btn {
+  background: #1e293b;
+  color: #facc15;
+}
+
+body.dark .theme-btn:hover {
+  background: #334155;
+}
+
+/* ===========================================
+   HERO SECTION
+=========================================== */
+
+body.dark .hero {
+  background: #0f172a;
+}
+
+body.dark .hero-content h1 {
+  color: #60a5fa;
+}
+
+body.dark .hero-content p {
+  color: #cbd5e1;
+}
+
+/* Search */
+
+body.dark .search-box input {
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+
+body.dark .search-box input::placeholder {
+  color: #94a3b8;
+}
+
+body.dark .search-box button {
+  background: #2563eb;
+}
+
+body.dark .search-box button:hover {
+  background: #1d4ed8;
+}
+
+/* ===========================================
+   FEATURED JOBS
+=========================================== */
+
+body.dark .featured-jobs {
+  background: #111827;
+}
+
+body.dark .featured-jobs h2 {
+  color: white;
+}
+
+/* ===========================================
+   JOB CARD
+=========================================== */
+
+body.dark .job-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+body.dark .job-card:hover {
+  box-shadow: 0 15px 35px rgba(37,99,235,.35);
+}
+
+body.dark .job-card h3 {
+  color: white;
+}
+
+body.dark .job-info {
+  color: #cbd5e1;
+}
+
+body.dark .icon {
+  color: #60a5fa;
+}
+
+body.dark .badge {
+  background: #2563eb;
+}
+
+body.dark .heart-icon {
+  background: #334155;
+  border: 1px solid #475569;
+}
+
+body.dark .heart-icon:hover {
+  background: #475569;
+}
+
+body.dark .details-btn {
+  background: transparent;
+  color: white;
+  border: 2px solid #60a5fa;
+}
+
+body.dark .details-btn:hover {
+  background: #2563eb;
+}
+
+body.dark .apply-btn {
+  background: #2563eb;
+}
+
+body.dark .apply-btn:hover {
+  background: #1d4ed8;
+}
+
+body.dark .company-link {
+  color: #e2e8f0;
+}
+
+body.dark .company-link:hover {
+  color: #60a5fa;
+}
+
+
+
+/* ===========================================
+   LOGIN PAGE
+=========================================== */
+
+body.dark .login-container{
+    background:#0f172a;
+}
+
+body.dark .login-card{
+    background:#1e293b;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+body.dark .login-card h1,
+body.dark .login-card h2,
+body.dark .login-card h3{
+    color:#ffffff;
+}
+
+body.dark .login-card p,
+body.dark .login-card label{
+    color:#cbd5e1;
+}
+
+body.dark .login-card input{
+    background:#334155;
+    color:white;
+    border:1px solid #475569;
+}
+
+body.dark .login-card input::placeholder{
+    color:#94a3b8;
+}
+
+body.dark .login-card input:focus{
+    border-color:#3b82f6;
+}
+
+body.dark .login-btn{
+    background:#2563eb;
+    color:white;
+}
+
+body.dark .login-btn:hover{
+    background:#1d4ed8;
+}
+
+body.dark .login-card a{
+    color:#60a5fa;
+}
+
+body.dark .login-card a:hover{
+    color:#93c5fd;
+}
+
+
+/* ===========================================
+   REGISTER PAGE
+=========================================== */
+
+body.dark .register-container{
+    background:#0f172a;
+}
+
+body.dark .register-card{
+    background:#1e293b;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+body.dark .register-card h1,
+body.dark .register-card h2,
+body.dark .register-card h3{
+    color:#ffffff;
+}
+
+body.dark .register-card p,
+body.dark .register-card label{
+    color:#cbd5e1;
+}
+
+body.dark .register-card input{
+    background:#334155;
+    color:white;
+    border:1px solid #475569;
+}
+
+body.dark .register-card input::placeholder{
+    color:#94a3b8;
+}
+
+body.dark .register-card input:focus{
+    border-color:#3b82f6;
+}
+
+body.dark .register-btn{
+    background:#2563eb;
+    color:white;
+}
+
+body.dark .register-btn:hover{
+    background:#1d4ed8;
+}
+
+body.dark .register-card a{
+    color:#60a5fa;
+}
+
+body.dark .register-card a:hover{
+    color:#93c5fd;
+}
+
+
+
+/* ===========================================
+   DETAILS PAGE
+=========================================== */
+
+body.dark .details-container{
+    background:#1e293b;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+body.dark .details-header h1{
+    color:#ffffff;
+}
+
+body.dark .company{
+    color:#60a5fa;
+}
+
+body.dark .info p{
+    background:#334155;
+    color:#e2e8f0;
+}
+
+body.dark .info-icon{
+    color:#60a5fa;
+}
+
+body.dark .details-section h2{
+    color:white;
+    border-left:5px solid #60a5fa;
+}
+
+body.dark .details-section p{
+    color:#cbd5e1;
+}
+
+body.dark .list li{
+    color:#e2e8f0;
+}
+
+body.dark .check-icon{
+    color:#22c55e;
+}
+
+body.dark .skill{
+    background:#2563eb;
+    color:white;
+}
+
+body.dark .details-apply-btn{
+    background:#2563eb;
+}
+
+body.dark .details-apply-btn:hover{
+    background:#1d4ed8;
+}
+
+body.dark .company:hover{
+    color:#93c5fd;
+}
+
+
+/* ===========================================
+   APPLY JOB
+=========================================== */
+
+body.dark .apply-container{
+
+    background:#1e293b;
+
+    color:white;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+
+}
+
+body.dark .apply-container h1{
+
+    color:white;
+
+}
+
+body.dark .apply-form label{
+
+    color:#e2e8f0;
+
+}
+
+body.dark .apply-form input,
+body.dark .apply-form select,
+body.dark .apply-form textarea{
+
+    background:#334155;
+
+    color:white;
+
+    border:1px solid #475569;
+
+}
+
+body.dark .apply-form input::placeholder,
+body.dark .apply-form textarea::placeholder{
+
+    color:#94a3b8;
+
+}
+
+body.dark .apply-form input:focus,
+body.dark .apply-form select:focus,
+body.dark .apply-form textarea:focus{
+
+    border-color:#60a5fa;
+
+}
+
+body.dark .apply-form button{
+
+    background:#2563eb;
+
+}
+
+body.dark .apply-form button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+/* ===========================================
+   COMPANY PROFILE
+=========================================== */
+
+body.dark .profile-container{
+    background:#0f172a;
+}
+
+body.dark .profile-card{
+    background:#1e293b;
+    color:white;
+    box-shadow:0 12px 35px rgba(0,0,0,.45);
+}
+
+body.dark .profile-card h1{
+    color:white;
+}
+
+body.dark .rating{
+    color:#fbbf24;
+}
+
+body.dark .profile-info p{
+    background:#334155;
+    color:#e2e8f0;
+}
+
+body.dark .profile-info svg{
+    color:#60a5fa;
+}
+
+body.dark .about h2,
+body.dark .open-jobs h2{
+    color:white;
+    border-left:5px solid #60a5fa;
+}
+
+body.dark .about p{
+    color:#cbd5e1;
+}
+
+body.dark .open-jobs li{
+    background:#334155;
+    color:#e2e8f0;
+    border:1px solid #475569;
+}
+
+body.dark .open-jobs li:hover{
+    background:#2563eb;
+    color:white;
+    transform:translateX(6px);
+}
+
+body.dark .visit-btn{
+    background:#2563eb;
+    color:white;
+}
+
+body.dark .visit-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(37,99,235,.35);
+}

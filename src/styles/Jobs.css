@@ -1,0 +1,370 @@
+/* ===========================
+   JOBS PAGE
+=========================== */
+
+body{
+    background:#f4f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.jobs-page{
+    width:95%;
+    max-width:1600px;
+    margin:35px auto 60px;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.jobs-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.jobs-header h1{
+    font-size:46px;
+    color:#0f172a;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.jobs-header p{
+    color:#64748b;
+    font-size:18px;
+}
+
+/* ===========================
+   FILTERS
+=========================== */
+
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    align-items:center;
+
+    background:#fff;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+}
+
+.filters input{
+    flex:2;
+    min-width:260px;
+
+    height:55px;
+
+    border:1px solid #dbe4f0;
+    border-radius:12px;
+
+    padding:0 18px;
+
+    font-size:15px;
+}
+
+.filters select{
+    flex:1;
+    min-width:170px;
+
+    height:55px;
+
+    border:1px solid #dbe4f0;
+    border-radius:12px;
+
+    padding:0 15px;
+
+    font-size:15px;
+}
+
+.filters input:focus,
+.filters select:focus{
+
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+.clear-btn{
+
+    height:55px;
+    padding:0 28px;
+
+    background:#2563eb;
+    color:white;
+
+    border:none;
+    border-radius:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+.clear-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* ===========================
+   RESULT BAR
+=========================== */
+
+.results{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+}
+
+.results h3{
+
+font-size:30px;
+
+color:#0f172a;
+
+font-weight:700;
+
+}
+
+.results span{
+
+background:#2563eb;
+
+color:white;
+
+padding:9px 18px;
+
+border-radius:30px;
+
+font-size:14px;
+
+}
+
+/* ===========================
+   JOB GRID
+=========================== */
+
+.job-container{
+
+display:grid;
+
+/* Four cards */
+grid-template-columns:repeat(4,minmax(0,1fr));
+
+gap:24px;
+
+justify-items:center;
+
+align-items:start;
+
+}
+
+/* ===========================
+   NO JOBS
+=========================== */
+
+.no-jobs{
+
+width:100%;
+
+padding:60px;
+
+background:white;
+
+border-radius:18px;
+
+text-align:center;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+/* ===========================
+   LARGE LAPTOP
+=========================== */
+
+@media(max-width:1400px){
+
+.job-container{
+
+grid-template-columns:repeat(4,1fr);
+
+}
+
+}
+
+/* ===========================
+   LAPTOP
+=========================== */
+
+@media(max-width:1200px){
+
+.job-container{
+
+grid-template-columns:repeat(3,1fr);
+
+}
+
+}
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media(max-width:992px){
+
+.filters{
+
+flex-direction:column;
+
+}
+
+.filters input,
+.filters select,
+.clear-btn{
+
+width:100%;
+
+}
+
+.results{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:10px;
+
+}
+
+.job-container{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.jobs-page{
+
+width:92%;
+
+}
+
+.jobs-header h1{
+
+font-size:34px;
+
+}
+
+.jobs-header p{
+
+font-size:15px;
+
+}
+
+.results h3{
+
+font-size:24px;
+
+}
+
+.results{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:10px;
+
+}
+
+.job-container{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark{
+
+background:#0f172a;
+
+}
+
+body.dark .jobs-header h1{
+
+color:white;
+
+}
+
+body.dark .jobs-header p{
+
+color:#cbd5e1;
+
+}
+
+body.dark .filters{
+
+background:#1e293b;
+
+}
+
+body.dark .filters input,
+body.dark .filters select{
+
+background:#334155;
+
+border:1px solid #475569;
+
+color:white;
+
+}
+
+body.dark .results h3{
+
+color:white;
+
+}
+
+body.dark .no-jobs{
+
+background:#1e293b;
+
+}
+
+body.dark .no-jobs h2{
+
+color:white;
+
+}
+
+body.dark .no-jobs p{
+
+color:#cbd5e1;
+
+}

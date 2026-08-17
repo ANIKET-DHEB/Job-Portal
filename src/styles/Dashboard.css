@@ -1,0 +1,920 @@
+/* ===========================
+   DASHBOARD
+=========================== */
+
+.dashboard-container {
+  max-width: 1250px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+  font-size: 36px;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.dashboard-subtitle {
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* ===========================
+   PROFILE COMPLETION
+=========================== */
+
+.profile-completion-card {
+  width: 180px;
+  min-height: 180px;
+
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+
+  color: white;
+
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 12px 30px rgba(37, 99, 235, .35);
+
+  transition: .35s;
+}
+
+.profile-completion-card:hover {
+  transform: translateY(-6px);
+}
+
+.profile-completion-card svg {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.profile-completion-card h2 {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.profile-completion-card p {
+  color: white;
+}
+
+/* ===========================
+   STATISTICS
+=========================== */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+
+  transition: .35s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+}
+
+.dashboard-icon {
+  font-size: 42px;
+  color: #2563eb;
+  margin-bottom: 18px;
+}
+
+.dashboard-card h3 {
+  font-size: 32px;
+  color: #0f172a;
+}
+
+.dashboard-card p {
+  color: #64748b;
+}
+
+/* ===========================
+   QUICK ACTIONS
+=========================== */
+
+.quick-actions {
+  margin-top: 55px;
+}
+
+.quick-actions h2 {
+  margin-bottom: 20px;
+  color: #0f172a;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.action-buttons button {
+  padding: 13px 24px;
+  border: none;
+  border-radius: 10px;
+
+  background: #2563eb;
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: .3s;
+}
+
+.action-buttons button:hover {
+  background: #1d4ed8;
+  transform: translateY(-3px);
+}
+
+/* ===========================
+   RECOMMENDED JOBS
+=========================== */
+
+.recommended-section {
+  margin-top: 60px;
+}
+
+.recommended-section h2 {
+  margin-bottom: 22px;
+  color: #0f172a;
+}
+
+.recommended-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 20px;
+}
+
+.recommended-card {
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+
+  cursor: pointer;
+
+  transition: .35s;
+}
+
+.recommended-card:hover {
+  transform: translateY(-5px);
+  border-left: 6px solid #2563eb;
+}
+
+.recommended-card h3 {
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.recommended-card p {
+  color: #2563eb;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.recommended-card span {
+  color: #64748b;
+}
+
+/* ===========================
+   RECENT APPLICATIONS
+=========================== */
+
+.recent-applications {
+  margin-top: 60px;
+}
+
+.recent-applications h2 {
+  margin-bottom: 20px;
+}
+
+.application-card {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 18px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+
+  transition: .3s;
+}
+
+.application-card:hover {
+  transform: translateY(-4px);
+}
+
+.application-card h3 {
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.application-card p {
+  color: #64748b;
+}
+
+/* ===========================
+   STATUS
+=========================== */
+
+.status {
+  padding: 8px 16px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+}
+
+.applied {
+  background: #16a34a;
+}
+
+.under-review {
+  background: #f59e0b;
+}
+
+.rejected {
+  background: #dc2626;
+}
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media (max-width:992px) {
+
+.dashboard-header {
+  flex-direction: column;
+  text-align: center;
+}
+
+.profile-completion-card {
+  width: 220px;
+}
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width:768px){
+
+.dashboard-container{
+padding:15px;
+}
+
+.dashboard-header h1{
+font-size:30px;
+}
+
+.dashboard-grid{
+grid-template-columns:1fr;
+}
+
+.recommended-grid{
+grid-template-columns:1fr;
+}
+
+.application-card{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+.action-buttons{
+flex-direction:column;
+}
+
+.action-buttons button{
+width:100%;
+}
+
+.profile-completion-card{
+width:100%;
+}
+
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark .dashboard-container{
+background:#0f172a;
+}
+
+body.dark .dashboard-card,
+body.dark .recommended-card,
+body.dark .application-card{
+background:#1e293b;
+}
+
+body.dark .dashboard-header h1,
+body.dark .quick-actions h2,
+body.dark .recommended-section h2,
+body.dark .recent-applications h2,
+body.dark .recommended-card h3{
+color:white;
+}
+
+body.dark .dashboard-card p,
+body.dark .dashboard-header p,
+body.dark .dashboard-subtitle,
+body.dark .application-card p,
+body.dark .recommended-card span{
+color:#cbd5e1;
+}
+
+body.dark .recommended-card{
+border:1px solid #334155;
+}
+
+body.dark .recommended-card:hover{
+border-left:6px solid #2563eb;
+}
+
+body.dark .application-card{
+border:1px solid #334155;
+}/* =========================================
+   USER DASHBOARD
+========================================= */
+
+.dashboard-container {
+    width: 92%;
+    max-width: 1250px;
+
+    margin: 40px auto 70px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 30px;
+
+    margin-bottom: 38px;
+}
+
+.dashboard-header h1 {
+    margin: 0 0 8px;
+
+    color: #0f172a;
+
+    font-size: 36px;
+    font-weight: 750;
+}
+
+.dashboard-header p {
+    margin: 0 0 6px;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+.dashboard-subtitle {
+    color: #94a3b8;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   PROFILE COMPLETION
+========================================= */
+
+.profile-completion-card {
+    width: 190px;
+    min-height: 175px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.25);
+
+    transition: 0.3s ease;
+}
+
+.profile-completion-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-completion-card svg {
+    margin-bottom: 10px;
+
+    font-size: 42px;
+}
+
+.profile-completion-card h2 {
+    margin: 0 0 4px;
+
+    font-size: 34px;
+}
+
+.profile-completion-card p {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+.dashboard-card {
+    padding: 25px 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+
+    transition: 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 30px rgba(15, 23, 42, 0.10);
+}
+
+.dashboard-icon {
+    margin-bottom: 14px;
+
+    color: #2563eb;
+
+    font-size: 38px;
+}
+
+.dashboard-card h3 {
+    margin: 0 0 5px;
+
+    color: #0f172a;
+
+    font-size: 30px;
+    font-weight: 750;
+}
+
+.dashboard-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions {
+    margin-top: 50px;
+}
+
+.quick-actions h2 {
+    margin: 0 0 20px;
+
+    color: #0f172a;
+
+    font-size: 24px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+.action-buttons button {
+    padding: 12px 22px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.action-buttons button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.20);
+}
+
+
+/* =========================================
+   RECOMMENDED JOBS
+========================================= */
+
+.recommended-section {
+    margin-top: 55px;
+}
+
+.recommended-section h2 {
+    margin: 0 0 20px;
+
+    color: #0f172a;
+
+    font-size: 24px;
+}
+
+.recommended-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.recommended-card {
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 22px rgba(15, 23, 42, 0.06);
+
+    transition: 0.3s ease;
+}
+
+.recommended-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 12px 28px rgba(15, 23, 42, 0.10);
+}
+
+.recommended-card h3 {
+    margin: 0 0 8px;
+
+    color: #1e293b;
+
+    font-size: 18px;
+}
+
+.recommended-card p {
+    margin: 0 0 8px;
+
+    color: #2563eb;
+
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.recommended-card span {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RECENT APPLICATIONS
+========================================= */
+
+.recent-applications {
+    margin-top: 55px;
+}
+
+.recent-applications h2 {
+    margin: 0 0 20px;
+
+    color: #0f172a;
+
+    font-size: 24px;
+}
+
+.application-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 14px;
+    padding: 20px 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    box-shadow:
+        0 7px 20px rgba(15, 23, 42, 0.05);
+
+    transition: 0.3s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #bfdbfe;
+}
+
+.application-card h3 {
+    margin: 0 0 6px;
+
+    color: #1e293b;
+
+    font-size: 17px;
+}
+
+.application-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 7px 14px;
+
+    border-radius: 30px;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    white-space: nowrap;
+}
+
+.applied {
+    background: #16a34a;
+}
+
+.under-review {
+    background: #f59e0b;
+}
+
+.rejected {
+    background: #dc2626;
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark .dashboard-header h1,
+body.dark .quick-actions h2,
+body.dark .recommended-section h2,
+body.dark .recent-applications h2 {
+    color: #f8fafc;
+}
+
+body.dark .dashboard-header p,
+body.dark .dashboard-subtitle {
+    color: #cbd5e1;
+}
+
+body.dark .dashboard-card,
+body.dark .recommended-card,
+body.dark .application-card {
+    background: #1e293b;
+
+    border-color: #334155;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+body.dark .dashboard-card h3,
+body.dark .recommended-card h3,
+body.dark .application-card h3 {
+    color: #f8fafc;
+}
+
+body.dark .dashboard-card p,
+body.dark .recommended-card span,
+body.dark .application-card p {
+    color: #cbd5e1;
+}
+
+body.dark .recommended-card:hover,
+body.dark .application-card:hover {
+    border-color: #475569;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+    .dashboard-container {
+        width: 94%;
+    }
+
+    .dashboard-header {
+        align-items: flex-start;
+    }
+
+    .dashboard-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .recommended-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-container {
+        width: 92%;
+
+        margin-top: 25px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        text-align: left;
+
+        margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 30px;
+    }
+
+    .profile-completion-card {
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recommended-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    .application-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .dashboard-container {
+        width: 94%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 26px;
+    }
+
+    .dashboard-card {
+        padding: 22px 18px;
+    }
+
+    .dashboard-card h3 {
+        font-size: 27px;
+    }
+
+    .quick-actions h2,
+    .recommended-section h2,
+    .recent-applications h2 {
+        font-size: 21px;
+    }
+
+    .application-card {
+        padding: 18px;
+    }
+}

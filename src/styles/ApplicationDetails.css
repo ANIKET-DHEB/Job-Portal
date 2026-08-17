@@ -1,0 +1,513 @@
+/* =========================================
+   APPLICATION DETAILS PAGE
+========================================= */
+
+.application-details-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.application-details-header {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 30px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.application-details-header h1 {
+  margin: 15px 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.application-details-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn {
+  border: none;
+  background: #eff6ff;
+  color: #2563eb;
+
+  padding: 10px 16px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.back-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+
+/* =========================================
+   STATUS BADGE
+========================================= */
+
+.application-details-header .application-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 18px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* Pending */
+
+.application-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+
+/* Reviewed */
+
+.application-status.reviewed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+
+/* Shortlisted */
+
+.application-status.shortlisted {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+
+/* Rejected */
+
+.application-status.rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+
+/* =========================================
+   DETAILS CARD
+========================================= */
+
+.details-card {
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  padding: 28px;
+
+  margin-bottom: 22px;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+
+  transition: 0.25s ease;
+}
+
+.details-card:hover {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+}
+
+.details-card h2 {
+  margin: 0 0 22px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #0f172a;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.details-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px 30px;
+}
+
+
+/* =========================================
+   DETAIL ITEM
+========================================= */
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  padding: 15px;
+
+  background: #f8fafc;
+
+  border-radius: 12px;
+
+  border: 1px solid #eef2f7;
+}
+
+.detail-item span {
+  font-size: 13px;
+
+  color: #64748b;
+
+  font-weight: 500;
+}
+
+.detail-item strong {
+  font-size: 15px;
+
+  color: #0f172a;
+
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+
+/* =========================================
+   RESUME BUTTON
+========================================= */
+
+.resume-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 12px 20px;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: 0.25s ease;
+}
+
+.resume-btn:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================
+   EMPTY TEXT
+========================================= */
+
+.empty-text {
+  color: #64748b;
+
+  margin: 0;
+
+  font-size: 15px;
+}
+
+
+/* =========================================
+   COVER LETTER
+========================================= */
+
+.cover-letter {
+  background: #f8fafc;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  color: #334155;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+
+  min-height: 100px;
+}
+
+
+/* =========================================
+   STATUS CONTROLS
+========================================= */
+
+.status-controls {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+
+/* Status Select */
+
+.status-controls select {
+  min-width: 190px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #dbe4f0;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.status-controls select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* =========================================
+   UPDATE STATUS BUTTON
+========================================= */
+
+.update-status-btn {
+  border: none;
+
+  padding: 12px 22px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.update-status-btn:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+}
+
+.update-status-btn:disabled {
+  background: #94a3b8;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.application-loading {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  color: #64748b;
+}
+
+.application-loading h2 {
+  margin-bottom: 8px;
+
+  color: #0f172a;
+}
+
+.application-loading p {
+  margin: 0;
+}
+
+
+/* =========================================
+   NOT FOUND
+========================================= */
+
+.application-not-found {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  margin: 30px;
+
+  padding: 40px;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.application-not-found h2 {
+  margin-bottom: 10px;
+
+  color: #0f172a;
+}
+
+.application-not-found p {
+  color: #64748b;
+
+  margin-bottom: 20px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .application-details-container {
+    padding: 20px;
+  }
+
+  .application-details-header {
+    flex-direction: column;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .application-details-container {
+    padding: 15px;
+  }
+
+  .application-details-header {
+    padding: 20px;
+  }
+
+  .application-details-header h1 {
+    font-size: 24px;
+  }
+
+  .details-card {
+    padding: 20px;
+  }
+
+  .details-card h2 {
+    font-size: 18px;
+  }
+
+  .status-controls {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .status-controls select {
+    width: 100%;
+  }
+
+  .update-status-btn {
+    width: 100%;
+  }
+
+}

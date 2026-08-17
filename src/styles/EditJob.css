@@ -1,0 +1,200 @@
+/* ===========================
+   EDIT JOB PAGE
+=========================== */
+
+.edit-job-container{
+    max-width:900px;
+    margin:30px auto;
+    background:#ffffff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.edit-job-container h2{
+    font-size:30px;
+    color:#0f172a;
+    margin-bottom:30px;
+    text-align:center;
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+.edit-job-form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
+
+/* Full Width */
+
+.edit-job-form textarea,
+.edit-job-form button{
+    grid-column:1 / -1;
+}
+
+.edit-job-form input,
+.edit-job-form select,
+.edit-job-form textarea{
+
+    width:100%;
+
+    padding:15px 18px;
+
+    border:1px solid #dbe4f0;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+    background:white;
+
+    color:#1e293b;
+
+    font-family:inherit;
+
+}
+
+.edit-job-form input:focus,
+.edit-job-form select:focus,
+.edit-job-form textarea:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+.edit-job-form textarea{
+
+    resize:vertical;
+    min-height:160px;
+
+}
+
+/* Button */
+
+.edit-job-form button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.edit-job-form button:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media(max-width:992px){
+
+.edit-job-container{
+
+padding:28px;
+
+}
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.edit-job-form{
+
+grid-template-columns:1fr;
+
+}
+
+.edit-job-container{
+
+padding:22px;
+
+}
+
+.edit-job-container h2{
+
+font-size:26px;
+
+}
+
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark .edit-job-container{
+
+background:#1e293b;
+
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+}
+
+body.dark .edit-job-container h2{
+
+color:white;
+
+}
+
+body.dark .edit-job-form input,
+body.dark .edit-job-form select,
+body.dark .edit-job-form textarea{
+
+background:#334155;
+
+border:1px solid #475569;
+
+color:white;
+
+}
+
+body.dark .edit-job-form input::placeholder,
+body.dark .edit-job-form textarea::placeholder{
+
+color:#cbd5e1;
+
+}
+
+body.dark .edit-job-form button{
+
+background:#2563eb;
+
+}
+
+body.dark .edit-job-form button:hover{
+
+background:#1d4ed8;
+
+}
