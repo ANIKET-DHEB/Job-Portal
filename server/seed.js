@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const Job = require("./models/Job");
+const Job = require("./models/job");
 const jobs = require("./data/jobs");
 
 // Load environment variables

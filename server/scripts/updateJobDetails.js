@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const Job = require("../models/Job");
+const Job = require("../models/job");
 
 const getJobDetails = (title) => {
   const jobTitle = title.toLowerCase();
