@@ -603,3 +603,4 @@ function ApplicationDetails() {
 }
 
 export default ApplicationDetails;
+

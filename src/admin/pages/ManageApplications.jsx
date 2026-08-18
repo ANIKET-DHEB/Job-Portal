@@ -647,3 +647,4 @@ function ManageApplications() {
 }
 
 export default ManageApplications;
+
