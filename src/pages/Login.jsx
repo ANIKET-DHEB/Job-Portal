@@ -94,7 +94,7 @@ function Login() {
       // ==========================
 
       const res = await axios.post(
-        "https://job-portal-backend-qlnk.onrender.com /api/auth/login",
+        "https://job-portal-backend-qlnk.onrender.com/api/auth/login",
         user
       );
 

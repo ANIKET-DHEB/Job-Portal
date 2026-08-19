@@ -15,8 +15,6 @@ const profileRoutes = require("./routes/profileRoutes");
 
 dotenv.config();
 
-console.log("MONGO_URI =", process.env.MONGO_URI);
-
 // ==============================
 // Create Express App
 // ==============================

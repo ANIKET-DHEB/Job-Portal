@@ -20,7 +20,7 @@ function ManageUsers() {
   const fetchUsers = async () => {
     try {
       const res = await axios.get(
-        "https://job-portal-backend-qlnk.onrender.com /api/auth/users"
+        "https://job-portal-backend-qlnk.onrender.com/api/auth/users"
       );
 
       setUsers(res.data.users);
@@ -42,7 +42,7 @@ function ManageUsers() {
 
     try {
       await axios.delete(
-        `https://job-portal-backend-qlnk.onrender.com /api/auth/users/${id}`
+        `https://job-portal-backend-qlnk.onrender.com/api/auth/users/${id}`
       );
 
       alert("User Deleted Successfully");

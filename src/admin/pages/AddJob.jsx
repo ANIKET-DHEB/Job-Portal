@@ -54,7 +54,7 @@ function AddJob() {
       };
 
       await axios.post(
-        "https://job-portal-backend-qlnk.onrender.com /api/jobs",
+        "https://job-portal-backend-qlnk.onrender.com/api/jobs",
         newJob
       );
 

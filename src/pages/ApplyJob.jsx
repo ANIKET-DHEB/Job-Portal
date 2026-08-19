@@ -125,7 +125,7 @@ function ApplyJob() {
       // ==========================
 
       await axios.post(
-        "https://job-portal-backend-qlnk.onrender.com /api/applications",
+        "https://job-portal-backend-qlnk.onrender.com/api/applications",
         data,
         {
           headers: {

@@ -28,7 +28,7 @@ function Profiles() {
     const fetchJobs = async () => {
       try {
         const response = await fetch(
-          "https://job-portal-backend-qlnk.onrender.com /api/jobs"
+          "https://job-portal-backend-qlnk.onrender.com/api/jobs"
         );
 
         if (!response.ok) {

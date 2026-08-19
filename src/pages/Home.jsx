@@ -19,7 +19,7 @@ function Home() {
         setError("");
 
         const response = await axios.get(
-          "https://job-portal-backend-qlnk.onrender.com /api/jobs"
+          "https://job-portal-backend-qlnk.onrender.com/api/jobs"
         );
 
         setJobs(response.data.jobs?.slice(0, 8) || []);

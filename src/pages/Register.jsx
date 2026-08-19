@@ -38,7 +38,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "https://job-portal-backend-qlnk.onrender.com /api/auth/register",
+        "https://job-portal-backend-qlnk.onrender.com/api/auth/register",
         {
           name: user.name,
           email: user.email,

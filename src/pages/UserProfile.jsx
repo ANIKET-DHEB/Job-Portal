@@ -46,7 +46,7 @@ function UserProfile() {
             if (!user) return;
 
             const res = await axios.get(
-                `https://job-portal-backend-qlnk.onrender.com /api/profile/${user._id}`
+                `https://job-portal-backend-qlnk.onrender.com/api/profile/${user._id}`
             );
 
             setProfile({
@@ -67,7 +67,7 @@ function UserProfile() {
                     <img
                         src={
                             profile.profileImage
-                                ? `https://job-portal-backend-qlnk.onrender.com ${profile.profileImage}`
+                                ? `https://job-portal-backend-qlnk.onrender.com${profile.profileImage}`
                                 : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                                     profile.fullName
                                 )}&background=2563eb&color=fff&size=200`
@@ -163,7 +163,7 @@ function UserProfile() {
 
                     {profile.resume && (
                         <a
-                            href={`https://job-portal-backend-qlnk.onrender.com ${profile.resume}`}
+                            href={`https://job-portal-backend-qlnk.onrender.com${profile.resume}`}
                             target="_blank"
                             rel="noreferrer"
                         >

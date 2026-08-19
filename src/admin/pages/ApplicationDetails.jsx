@@ -59,7 +59,7 @@ function ApplicationDetails() {
       // ==========================
 
       const res = await axios.get(
-        `https://job-portal-backend-qlnk.onrender.com /api/applications/${id}`,
+        `https://job-portal-backend-qlnk.onrender.com/api/applications/${id}`,
         authConfig
       );
 
@@ -131,7 +131,7 @@ function ApplicationDetails() {
       // ==========================
 
       const res = await axios.put(
-        `https://job-portal-backend-qlnk.onrender.com /api/applications/${id}/status`,
+        `https://job-portal-backend-qlnk.onrender.com/api/applications/${id}/status`,
         {
           status: status,
         },
@@ -499,7 +499,7 @@ function ApplicationDetails() {
       href={
         application.resume.startsWith("http")
           ? application.resume
-          : `https://job-portal-backend-qlnk.onrender.com ${
+          : `https://job-portal-backend-qlnk.onrender.com${
               application.resume.startsWith("/uploads/")
                 ? application.resume
                 : `/uploads/resumes/${application.resume}`
