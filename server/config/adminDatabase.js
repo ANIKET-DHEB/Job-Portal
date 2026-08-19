@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const adminConnection = mongoose.createConnection(
-  "mongodb://127.0.0.1:27017/jobportal_admin",
+  process.env.ADMIN_MONGO_URI,
   {
     serverSelectionTimeoutMS: 10000,
   }
@@ -13,7 +13,7 @@ adminConnection.on("connected", () => {
 
 adminConnection.on("error", (error) => {
   console.log("❌ Admin MongoDB Connection Failed");
-  console.log(error);
+  console.log(error.message);
 });
 
 module.exports = adminConnection;
