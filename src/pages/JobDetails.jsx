@@ -24,7 +24,7 @@ function JobDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/jobs/${id}`)
+      .get(`https://job-portal-backend-qlnk.onrender.com /api/jobs/${id}`)
       .then((res) => {
         setJob(res.data.job);
       })

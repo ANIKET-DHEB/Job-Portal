@@ -23,7 +23,7 @@ function ManageCompanies() {
   const fetchJobs = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/jobs"
+        "https://job-portal-backend-qlnk.onrender.com /api/jobs"
       );
 
       setJobs(res.data.jobs || []);

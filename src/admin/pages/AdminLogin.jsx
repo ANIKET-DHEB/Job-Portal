@@ -21,7 +21,7 @@ function AdminLogin() {
       // Admin Login Request
       // ==========================
       const res = await axios.post(
-        "http://localhost:5000/api/auth/admin-login",
+        "https://job-portal-backend-qlnk.onrender.com /api/auth/admin-login",
         {
           username,
           password,

@@ -35,7 +35,7 @@ function EditProfile() {
       if (!user) return;
 
       const res = await axios.get(
-        `http://localhost:5000/api/profile/${user._id}`
+        `https://job-portal-backend-qlnk.onrender.com /api/profile/${user._id}`
       );
 
       setProfile({
@@ -93,7 +93,7 @@ function EditProfile() {
       }
 
       await axios.put(
-        `http://localhost:5000/api/profile/${user._id}`,
+        `https://job-portal-backend-qlnk.onrender.com /api/profile/${user._id}`,
         formData,
         {
           headers: {

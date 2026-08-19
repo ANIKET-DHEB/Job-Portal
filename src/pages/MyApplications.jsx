@@ -89,7 +89,7 @@ function MyApplications() {
       // GET USER APPLICATIONS
       // ==========================
       const res = await axios.get(
-        "http://localhost:5000/api/applications",
+        "https://job-portal-backend-qlnk.onrender.com /api/applications",
         config
       );
 
@@ -174,7 +174,7 @@ function MyApplications() {
       // DELETE APPLICATION
       // ==========================
       await axios.delete(
-        `http://localhost:5000/api/applications/${id}`,
+        `https://job-portal-backend-qlnk.onrender.com /api/applications/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

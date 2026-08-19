@@ -63,16 +63,16 @@ function AdminDashboard() {
       const [jobsRes, usersRes, applicationsRes] =
         await Promise.all([
           axios.get(
-            "http://localhost:5000/api/jobs"
+            "https://job-portal-backend-qlnk.onrender.com /api/jobs"
           ),
 
           axios.get(
-            "http://localhost:5000/api/auth/users",
+            "https://job-portal-backend-qlnk.onrender.com /api/auth/users",
             config
           ),
 
           axios.get(
-            "http://localhost:5000/api/applications",
+            "https://job-portal-backend-qlnk.onrender.com /api/applications",
             config
           ),
         ]);

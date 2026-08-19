@@ -35,7 +35,7 @@ function ManageJobs() {
 
   const fetchJobs = () => {
     axios
-      .get("http://localhost:5000/api/jobs")
+      .get("https://job-portal-backend-qlnk.onrender.com /api/jobs")
       .then((res) => {
         setJobs(res.data.jobs || []);
       })
@@ -57,7 +57,7 @@ function ManageJobs() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/jobs/${id}`
+        `https://job-portal-backend-qlnk.onrender.com /api/jobs/${id}`
       );
 
       alert("Job Deleted Successfully");

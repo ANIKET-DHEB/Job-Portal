@@ -79,7 +79,7 @@ function Dashboard() {
       // ==========================
 
       const jobsRes = await axios.get(
-        "http://localhost:5000/api/jobs"
+        "https://job-portal-backend-qlnk.onrender.com /api/jobs"
       );
 
       setJobs(
@@ -93,7 +93,7 @@ function Dashboard() {
 
       const applicationsRes =
         await axios.get(
-          "http://localhost:5000/api/applications",
+          "https://job-portal-backend-qlnk.onrender.com /api/applications",
           config
         );
 

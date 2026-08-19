@@ -60,7 +60,7 @@ function ManageApplications() {
       // ==========================
       const res =
         await axios.get(
-          "http://localhost:5000/api/applications",
+          "https://job-portal-backend-qlnk.onrender.com /api/applications",
           {
             headers: {
               Authorization:
@@ -168,7 +168,7 @@ function ManageApplications() {
       // Update Status
       // ==========================
       await axios.put(
-        `http://localhost:5000/api/applications/${id}/status`,
+        `https://job-portal-backend-qlnk.onrender.com /api/applications/${id}/status`,
         {
           status: status,
         },
@@ -254,7 +254,7 @@ function ManageApplications() {
       // Delete Application
       // ==========================
       await axios.delete(
-        `http://localhost:5000/api/applications/${id}`,
+        `https://job-portal-backend-qlnk.onrender.com /api/applications/${id}`,
         {
           headers: {
             Authorization:

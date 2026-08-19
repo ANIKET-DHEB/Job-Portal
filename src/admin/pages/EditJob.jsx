@@ -33,7 +33,7 @@ function EditJob() {
   const fetchJob = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/jobs/${id}`
+        `https://job-portal-backend-qlnk.onrender.com /api/jobs/${id}`
       );
 
       const jobData = res.data.job;
@@ -91,7 +91,7 @@ function EditJob() {
       };
 
       await axios.put(
-        `http://localhost:5000/api/jobs/${id}`,
+        `https://job-portal-backend-qlnk.onrender.com /api/jobs/${id}`,
         updatedJob
       );
 

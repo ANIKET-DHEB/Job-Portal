@@ -98,7 +98,7 @@ function AdminSettings() {
       // ==========================
       const res =
         await axios.put(
-          "http://localhost:5000/api/auth/admin/change-password",
+          "https://job-portal-backend-qlnk.onrender.com /api/auth/admin/change-password",
           {
             currentPassword:
               currentPassword,
