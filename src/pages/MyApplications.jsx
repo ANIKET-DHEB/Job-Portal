@@ -23,33 +23,17 @@ function MyApplications() {
   const navigate = useNavigate();
 
   // ==========================
-  // GET NORMAL USER TOKEN
+  // GET CURRENT NORMAL USER TOKEN
   // ==========================
+
   const getUserToken = () => {
-    // First check the correct key
-    let token = localStorage.getItem("token");
-
-    // If old userToken exists, use it
-    if (!token) {
-      const oldToken = localStorage.getItem("userToken");
-
-      if (oldToken) {
-        // Move old token to the correct key
-        localStorage.setItem("token", oldToken);
-
-        // Remove old key
-        localStorage.removeItem("userToken");
-
-        token = oldToken;
-      }
-    }
-
-    return token;
+    return localStorage.getItem("userToken");
   };
 
   // ==========================
   // FETCH APPLICATIONS
   // ==========================
+
   useEffect(() => {
     fetchApplications();
   }, []);
@@ -57,8 +41,9 @@ function MyApplications() {
   const fetchApplications = async () => {
     try {
       // ==========================
-      // GET USER TOKEN
+      // GET CURRENT USER TOKEN
       // ==========================
+
       const token = getUserToken();
 
       console.log("My Applications Token:", token);
@@ -66,6 +51,7 @@ function MyApplications() {
       // ==========================
       // CHECK LOGIN
       // ==========================
+
       if (!token) {
         console.log("No normal user token found.");
 
@@ -79,6 +65,7 @@ function MyApplications() {
       // ==========================
       // AUTHORIZATION HEADER
       // ==========================
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -88,6 +75,7 @@ function MyApplications() {
       // ==========================
       // GET USER APPLICATIONS
       // ==========================
+
       const res = await axios.get(
         "https://job-portal-backend-qlnk.onrender.com/api/applications",
         config
@@ -116,8 +104,8 @@ function MyApplications() {
       // ==========================
       // UNAUTHORIZED
       // ==========================
+
       if (error.response?.status === 401) {
-        localStorage.removeItem("token");
         localStorage.removeItem("userToken");
 
         alert(
@@ -131,7 +119,7 @@ function MyApplications() {
 
       alert(
         error.response?.data?.message ||
-        "Failed to load applications."
+          "Failed to load applications."
       );
     }
   };
@@ -139,6 +127,7 @@ function MyApplications() {
   // ==========================
   // DELETE APPLICATION
   // ==========================
+
   const deleteApplication = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this application?"
@@ -150,8 +139,9 @@ function MyApplications() {
 
     try {
       // ==========================
-      // GET USER TOKEN
+      // GET CURRENT USER TOKEN
       // ==========================
+
       const token = getUserToken();
 
       console.log(
@@ -162,6 +152,7 @@ function MyApplications() {
       // ==========================
       // CHECK LOGIN
       // ==========================
+
       if (!token) {
         alert("Please login first.");
 
@@ -173,6 +164,7 @@ function MyApplications() {
       // ==========================
       // DELETE APPLICATION
       // ==========================
+
       await axios.delete(
         `https://job-portal-backend-qlnk.onrender.com/api/applications/${id}`,
         {
@@ -185,6 +177,7 @@ function MyApplications() {
       // ==========================
       // REMOVE FROM UI
       // ==========================
+
       setApplications((prev) =>
         prev.filter(
           (app) => app._id !== id
@@ -209,8 +202,8 @@ function MyApplications() {
       // ==========================
       // TOKEN EXPIRED
       // ==========================
+
       if (error.response?.status === 401) {
-        localStorage.removeItem("token");
         localStorage.removeItem("userToken");
 
         alert(
@@ -224,7 +217,7 @@ function MyApplications() {
 
       alert(
         error.response?.data?.message ||
-        "Failed to delete application."
+          "Failed to delete application."
       );
     }
   };
@@ -232,6 +225,7 @@ function MyApplications() {
   // ==========================
   // STATUS CLASS
   // ==========================
+
   const getStatusClass = (status) => {
     switch (status) {
       case "Reviewed":
@@ -251,6 +245,7 @@ function MyApplications() {
   // ==========================
   // STATUS TEXT
   // ==========================
+
   const getStatusText = (status) => {
     switch (status) {
       case "Reviewed":
@@ -492,4 +487,3 @@ function MyApplications() {
 }
 
 export default MyApplications;
-
