@@ -23,6 +23,12 @@ function Dashboard() {
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
 
+  // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
+
   const { savedJobs } = useContext(SavedJobsContext);
 
   // ==========================
@@ -43,11 +49,15 @@ function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
+      setLoading(true);
+
       // ==========================
       // Get NORMAL USER Token
       // ==========================
 
-      const token = localStorage.getItem("userToken");
+      const token = localStorage.getItem(
+        "userToken"
+      );
 
       console.log(
         "Dashboard User Token:",
@@ -138,6 +148,9 @@ function Dashboard() {
 
         navigate("/login");
       }
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -157,15 +170,16 @@ function Dashboard() {
   // Today's Date
   // ==========================
 
-  const today = new Date().toLocaleDateString(
-    "en-IN",
-    {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }
-  );
+  const today =
+    new Date().toLocaleDateString(
+      "en-IN",
+      {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }
+    );
 
   // ==========================
   // Greeting
@@ -270,25 +284,41 @@ function Dashboard() {
 
         <DashboardCard
           title="Applied Jobs"
-          count={applications.length}
+          count={
+            loading
+              ? "..."
+              : applications.length
+          }
           icon={<FaBriefcase />}
         />
 
         <DashboardCard
           title="Saved Jobs"
-          count={savedJobs.length}
+          count={
+            loading
+              ? "..."
+              : savedJobs.length
+          }
           icon={<FaHeart />}
         />
 
         <DashboardCard
           title="Total Jobs"
-          count={jobs.length}
+          count={
+            loading
+              ? "..."
+              : jobs.length
+          }
           icon={<FaUserCheck />}
         />
 
         <DashboardCard
           title="Companies"
-          count={companyCount}
+          count={
+            loading
+              ? "..."
+              : companyCount
+          }
           icon={<FaBuilding />}
         />
 
@@ -352,39 +382,49 @@ function Dashboard() {
           Recommended Jobs
         </h2>
 
-        <div className="recommended-grid">
+        {loading ? (
 
-          {jobs
-            .slice(0, 4)
-            .map((job) => (
+          <p>
+            ⏳ Loading recommended jobs...
+          </p>
 
-              <div
-                key={job._id}
-                className="recommended-card"
-                onClick={() =>
-                  navigate(
-                    `/jobs/${job._id}`
-                  )
-                }
-              >
+        ) : (
 
-                <h3>
-                  {job.title}
-                </h3>
+          <div className="recommended-grid">
 
-                <p>
-                  {job.company}
-                </p>
+            {jobs
+              .slice(0, 4)
+              .map((job) => (
 
-                <span>
-                  {job.location}
-                </span>
+                <div
+                  key={job._id}
+                  className="recommended-card"
+                  onClick={() =>
+                    navigate(
+                      `/jobs/${job._id}`
+                    )
+                  }
+                >
 
-              </div>
+                  <h3>
+                    {job.title}
+                  </h3>
 
-            ))}
+                  <p>
+                    {job.company}
+                  </p>
 
-        </div>
+                  <span>
+                    {job.location}
+                  </span>
+
+                </div>
+
+              ))}
+
+          </div>
+
+        )}
 
       </div>
 
@@ -398,7 +438,13 @@ function Dashboard() {
           Recent Applications
         </h2>
 
-        {applications.length > 0 ? (
+        {loading ? (
+
+          <p>
+            ⏳ Loading applications...
+          </p>
+
+        ) : applications.length > 0 ? (
 
           applications
             .slice(0, 5)
@@ -445,4 +491,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

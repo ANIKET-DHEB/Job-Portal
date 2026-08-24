@@ -6,6 +6,11 @@ import "../styles/Jobs.css";
 function Jobs() {
   const [jobs, setJobs] = useState([]);
 
+  // ==========================
+  // LOADING STATE
+  // ==========================
+  const [loading, setLoading] = useState(true);
+
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
   const [jobType, setJobType] = useState("");
@@ -18,6 +23,8 @@ function Jobs() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
+        setLoading(true);
+
         const res = await axios.get(
           "https://job-portal-backend-qlnk.onrender.com/api/jobs"
         );
@@ -26,6 +33,8 @@ function Jobs() {
       } catch (error) {
         console.log("FETCH JOBS ERROR:", error);
         setJobs([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -83,9 +92,7 @@ function Jobs() {
     if (!numbers) return 0;
 
     return Math.max(
-      ...numbers.map((number) =>
-        Number(number)
-      )
+      ...numbers.map((number) => Number(number))
     );
   };
 
@@ -151,7 +158,7 @@ function Jobs() {
         <p>
           Browse{" "}
           <strong>
-            {filteredJobs.length}
+            {loading ? "..." : filteredJobs.length}
           </strong>{" "}
           available jobs from top companies.
         </p>
@@ -325,12 +332,16 @@ function Jobs() {
       <div className="results">
 
         <h3>
-          💼 {filteredJobs.length} Jobs Found
+          💼{" "}
+          {loading
+            ? "Loading Jobs..."
+            : `${filteredJobs.length} Jobs Found`}
         </h3>
 
         <span>
-          Showing {filteredJobs.length} of{" "}
-          {jobs.length} Jobs
+          {loading
+            ? "Loading jobs..."
+            : `Showing ${filteredJobs.length} of ${jobs.length} Jobs`}
         </span>
 
       </div>
@@ -341,7 +352,21 @@ function Jobs() {
 
       <div className="job-container">
 
-        {filteredJobs.length > 0 ? (
+        {loading ? (
+
+          <div className="no-jobs">
+
+            <h2>
+              ⏳ Loading Jobs...
+            </h2>
+
+            <p>
+              Please wait while we fetch the latest jobs.
+            </p>
+
+          </div>
+
+        ) : filteredJobs.length > 0 ? (
 
           filteredJobs.map((job) => (
 
@@ -380,4 +405,3 @@ function Jobs() {
 }
 
 export default Jobs;
-
