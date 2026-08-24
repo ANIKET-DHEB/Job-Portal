@@ -8,44 +8,52 @@ import AdminNavbar from "../components/AdminNavbar";
 import "../../styles/Admin.css";
 
 function ManageApplications() {
-  const [applications, setApplications] =
-    useState([]);
+  const [applications, setApplications] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const [search, setSearch] =
-    useState("");
+  // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   // ==========================
   // Get ADMIN JWT Token
   // ==========================
+
   const getAdminToken = () => {
-    return localStorage.getItem(
-      "adminToken"
-    );
+    return localStorage.getItem("adminToken");
   };
 
   // ==========================
   // Fetch Applications
   // ==========================
+
   useEffect(() => {
     fetchApplications();
   }, []);
 
   const fetchApplications = async () => {
     try {
+      // ==========================
+      // START LOADING
+      // ==========================
+
+      setLoading(true);
 
       // ==========================
       // Get Admin Token
       // ==========================
-      const token =
-        getAdminToken();
+
+      const token = getAdminToken();
 
       // ==========================
       // Check Admin Token
       // ==========================
-      if (!token) {
 
+      if (!token) {
         alert(
           "Admin session not found. Please login again."
         );
@@ -58,16 +66,15 @@ function ManageApplications() {
       // ==========================
       // Get ALL Applications
       // ==========================
-      const res =
-        await axios.get(
-          "https://job-portal-backend-qlnk.onrender.com/api/applications",
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          }
-        );
+
+      const res = await axios.get(
+        "https://job-portal-backend-qlnk.onrender.com/api/applications",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log(
         "ADMIN APPLICATIONS:",
@@ -77,12 +84,12 @@ function ManageApplications() {
       // ==========================
       // Save Applications
       // ==========================
+
       setApplications(
         res.data.applications || []
       );
 
     } catch (error) {
-
       console.log(
         "FETCH APPLICATIONS ERROR:",
         error
@@ -96,17 +103,10 @@ function ManageApplications() {
       // ==========================
       // Unauthorized
       // ==========================
-      if (
-        error.response?.status === 401
-      ) {
 
-        localStorage.removeItem(
-          "adminToken"
-        );
-
-        localStorage.removeItem(
-          "admin"
-        );
+      if (error.response?.status === 401) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("admin");
 
         alert(
           "Admin session expired. Please login again."
@@ -120,10 +120,8 @@ function ManageApplications() {
       // ==========================
       // Forbidden
       // ==========================
-      if (
-        error.response?.status === 403
-      ) {
 
+      if (error.response?.status === 403) {
         alert(
           "You are not authorized to access applications."
         );
@@ -132,29 +130,35 @@ function ManageApplications() {
       }
 
       alert(
-        "Failed to load applications."
+        error.response?.data?.message ||
+          "Failed to load applications."
       );
+
+    } finally {
+      // ==========================
+      // STOP LOADING
+      // ==========================
+
+      setLoading(false);
     }
   };
 
   // ==========================
   // Update Application Status
   // ==========================
+
   const updateStatus = async (
     id,
     status
   ) => {
-
     try {
-
       // ==========================
       // Get Admin Token
       // ==========================
-      const token =
-        getAdminToken();
+
+      const token = getAdminToken();
 
       if (!token) {
-
         alert(
           "Admin session not found. Please login again."
         );
@@ -167,6 +171,7 @@ function ManageApplications() {
       // ==========================
       // Update Status
       // ==========================
+
       await axios.put(
         `https://job-portal-backend-qlnk.onrender.com/api/applications/${id}/status`,
         {
@@ -174,8 +179,7 @@ function ManageApplications() {
         },
         {
           headers: {
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -183,6 +187,7 @@ function ManageApplications() {
       // ==========================
       // Update UI Immediately
       // ==========================
+
       setApplications(
         (prevApplications) =>
           prevApplications.map(
@@ -197,7 +202,6 @@ function ManageApplications() {
       );
 
     } catch (error) {
-
       console.log(
         "UPDATE STATUS ERROR:",
         error
@@ -218,10 +222,10 @@ function ManageApplications() {
   // ==========================
   // Delete Application
   // ==========================
+
   const deleteApplication = async (
     id
   ) => {
-
     const confirmDelete =
       window.confirm(
         "Are you sure you want to delete this application?"
@@ -232,15 +236,13 @@ function ManageApplications() {
     }
 
     try {
-
       // ==========================
       // Get Admin Token
       // ==========================
-      const token =
-        getAdminToken();
+
+      const token = getAdminToken();
 
       if (!token) {
-
         alert(
           "Admin session not found. Please login again."
         );
@@ -253,12 +255,12 @@ function ManageApplications() {
       // ==========================
       // Delete Application
       // ==========================
+
       await axios.delete(
         `https://job-portal-backend-qlnk.onrender.com/api/applications/${id}`,
         {
           headers: {
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -266,6 +268,7 @@ function ManageApplications() {
       // ==========================
       // Remove From UI
       // ==========================
+
       setApplications(
         (prevApplications) =>
           prevApplications.filter(
@@ -279,7 +282,6 @@ function ManageApplications() {
       );
 
     } catch (error) {
-
       console.log(
         "DELETE APPLICATION ERROR:",
         error
@@ -300,10 +302,10 @@ function ManageApplications() {
   // ==========================
   // Search Applications
   // ==========================
+
   const filteredApplications =
     applications.filter(
       (application) => {
-
         const applicantName =
           application.fullName || "";
 
@@ -329,12 +331,11 @@ function ManageApplications() {
   // ==========================
   // Status Class
   // ==========================
+
   const getStatusClass = (
     status
   ) => {
-
     switch (status) {
-
       case "Reviewed":
         return "status-reviewed";
 
@@ -394,8 +395,9 @@ function ManageApplications() {
                   color: "#64748b",
                 }}
               >
-                Total Applications:{" "}
-                {applications.length}
+                {loading
+                  ? "Loading applications..."
+                  : `Total Applications: ${applications.length}`}
               </p>
 
             </div>
@@ -475,144 +477,183 @@ function ManageApplications() {
 
               <tbody>
 
-                {filteredApplications.map(
-                  (application) => {
-
-                    const currentStatus =
-                      application.status ||
-                      "Pending";
-
-                    return (
-                      <tr
-                        key={
-                          application._id
-                        }
-                      >
-
-                        {/* Applicant */}
-
-                        <td>
-                          {application.fullName ||
-                            application.userId?.name ||
-                            "N/A"}
-                        </td>
-
-                        {/* Email */}
-
-                        <td>
-                          {application.email ||
-                            application.userId?.email ||
-                            "N/A"}
-                        </td>
-
-                        {/* Job */}
-
-                        <td>
-                          {application
-                            .jobId?.title ||
-                            "N/A"}
-                        </td>
-
-                        {/* Company */}
-
-                        <td>
-                          {application
-                            .jobId?.company ||
-                            "N/A"}
-                        </td>
-
-                        {/* Location */}
-
-                        <td>
-                          {application
-                            .jobId?.location ||
-                            "N/A"}
-                        </td>
-
-                        {/* Status */}
-
-                        <td>
-
-                          <select
-                            value={
-                              currentStatus
-                            }
-                            onChange={(e) =>
-                              updateStatus(
-                                application._id,
-                                e.target.value
-                              )
-                            }
-                            className={
-                              `application-status ${getStatusClass(
-                                currentStatus
-                              )}`
-                            }
-                          >
-
-                            <option value="Pending">
-                              Pending
-                            </option>
-
-                            <option value="Reviewed">
-                              Reviewed
-                            </option>
-
-                            <option value="Shortlisted">
-                              Shortlisted
-                            </option>
-
-                            <option value="Rejected">
-                              Rejected
-                            </option>
-
-                          </select>
-
-                        </td>
-
-                        {/* Action */}
-
-                        <td>
-
-                          <button
-                            className="details-btn"
-                            onClick={() =>
-                              navigate(
-                                `/admin/applications/${application._id}`
-                              )
-                            }
-                          >
-                            View
-                          </button>
-
-                          <button
-                            className="apply-btn"
-                            style={{
-                              marginLeft:
-                                "10px",
-                            }}
-                            onClick={() =>
-                              deleteApplication(
-                                application._id
-                              )
-                            }
-                          >
-                            Delete
-                          </button>
-
-                        </td>
-
-                      </tr>
-                    );
-                  }
-                )}
-
                 {/* ==========================
-                    NO APPLICATIONS
+                    LOADING
                 ========================== */}
 
-                {filteredApplications.length ===
-                  0 && (
+                {loading ? (
+
+                  <tr>
+
+                    <td
+                      colSpan="7"
+                      style={{
+                        textAlign:
+                          "center",
+                        padding: "40px",
+                      }}
+                    >
+
+                      <h3>
+                        ⏳ Loading Applications...
+                      </h3>
+
+                      <p
+                        style={{
+                          marginTop: "8px",
+                          color: "#64748b",
+                        }}
+                      >
+                        Please wait while applications are loading.
+                      </p>
+
+                    </td>
+
+                  </tr>
+
+                ) : filteredApplications.length > 0 ? (
+
+                  /* ==========================
+                     APPLICATIONS
+                  ========================== */
+
+                  filteredApplications.map(
+                    (application) => {
+
+                      const currentStatus =
+                        application.status ||
+                        "Pending";
+
+                      return (
+
+                        <tr
+                          key={
+                            application._id
+                          }
+                        >
+
+                          {/* Applicant */}
+
+                          <td>
+                            {application.fullName ||
+                              application.userId?.name ||
+                              "N/A"}
+                          </td>
+
+                          {/* Email */}
+
+                          <td>
+                            {application.email ||
+                              application.userId?.email ||
+                              "N/A"}
+                          </td>
+
+                          {/* Job */}
+
+                          <td>
+                            {application
+                              .jobId?.title ||
+                              "N/A"}
+                          </td>
+
+                          {/* Company */}
+
+                          <td>
+                            {application
+                              .jobId?.company ||
+                              "N/A"}
+                          </td>
+
+                          {/* Location */}
+
+                          <td>
+                            {application
+                              .jobId?.location ||
+                              "N/A"}
+                          </td>
+
+                          {/* Status */}
+
+                          <td>
+
+                            <select
+                              value={
+                                currentStatus
+                              }
+                              onChange={(e) =>
+                                updateStatus(
+                                  application._id,
+                                  e.target.value
+                                )
+                              }
+                              className={`application-status ${getStatusClass(
+                                currentStatus
+                              )}`}
+                            >
+
+                              <option value="Pending">
+                                Pending
+                              </option>
+
+                              <option value="Reviewed">
+                                Reviewed
+                              </option>
+
+                              <option value="Shortlisted">
+                                Shortlisted
+                              </option>
+
+                              <option value="Rejected">
+                                Rejected
+                              </option>
+
+                            </select>
+
+                          </td>
+
+                          {/* Action */}
+
+                          <td>
+
+                            <button
+                              className="details-btn"
+                              onClick={() =>
+                                navigate(
+                                  `/admin/applications/${application._id}`
+                                )
+                              }
+                            >
+                              View
+                            </button>
+
+                            <button
+                              className="apply-btn"
+                              style={{
+                                marginLeft:
+                                  "10px",
+                              }}
+                              onClick={() =>
+                                deleteApplication(
+                                  application._id
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+
+                          </td>
+
+                        </tr>
+
+                      );
+                    }
+                  )
+
+                ) : (
+
+                  /* ==========================
+                     NO APPLICATIONS
+                  ========================== */
 
                   <tr>
 
@@ -647,4 +688,3 @@ function ManageApplications() {
 }
 
 export default ManageApplications;
-

@@ -11,28 +11,45 @@ function ManageUsers() {
   const [search, setSearch] = useState("");
 
   // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
+
+  // ==========================
   // Fetch Users
   // ==========================
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(
         "https://job-portal-backend-qlnk.onrender.com/api/auth/users"
       );
 
-      setUsers(res.data.users);
+      setUsers(res.data.users || []);
+
     } catch (error) {
-      console.log(error);
+      console.log("FETCH USERS ERROR:", error);
+
+      setUsers([]);
+
       alert("Failed to load users");
+
+    } finally {
+      setLoading(false);
     }
   };
 
   // ==========================
   // Delete User
   // ==========================
+
   const deleteUser = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this user?"
@@ -48,8 +65,10 @@ function ManageUsers() {
       alert("User Deleted Successfully");
 
       fetchUsers();
+
     } catch (error) {
       console.log(error);
+
       alert("Failed to delete user");
     }
   };
@@ -57,8 +76,9 @@ function ManageUsers() {
   // ==========================
   // Search Users
   // ==========================
+
   const filteredUsers = users.filter((user) =>
-    `${user.name} ${user.email}`
+    `${user.name || ""} ${user.email || ""}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
@@ -82,7 +102,9 @@ function ManageUsers() {
 
         <div className="recent-section">
 
-          {/* Header */}
+          {/* ==========================
+              HEADER
+          ========================== */}
 
           <div
             style={{
@@ -92,8 +114,12 @@ function ManageUsers() {
               marginBottom: "20px",
             }}
           >
+
             <div>
-              <h2>Manage Users</h2>
+
+              <h2>
+                Manage Users
+              </h2>
 
               <p
                 style={{
@@ -101,18 +127,26 @@ function ManageUsers() {
                   color: "#64748b",
                 }}
               >
-                Total Users: {users.length}
+                {loading
+                  ? "Loading users..."
+                  : `Total Users: ${users.length}`}
               </p>
+
             </div>
+
           </div>
 
-          {/* Search */}
+          {/* ==========================
+              SEARCH
+          ========================== */}
 
           <input
             type="text"
             placeholder="Search users by name or email..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
             style={{
               width: "100%",
               padding: "14px 16px",
@@ -124,68 +158,126 @@ function ManageUsers() {
             }}
           />
 
-          {/* Users Table */}
+          {/* ==========================
+              USERS TABLE
+          ========================== */}
 
-          <div style={{ overflowX: "auto" }}>
+          <div
+            style={{
+              overflowX: "auto",
+            }}
+          >
 
             <table>
 
               <thead>
+
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
                   <th>Action</th>
                 </tr>
+
               </thead>
 
               <tbody>
 
-                {filteredUsers.map((user) => (
-                  <tr key={user._id}>
+                {/* ==========================
+                    LOADING
+                ========================== */}
 
-                    <td>
-                      {user.name}
-                    </td>
+                {loading ? (
 
-                    <td>
-                      {user.email}
-                    </td>
+                  <tr>
 
-                    <td>
-                      <span
+                    <td
+                      colSpan="4"
+                      style={{
+                        textAlign: "center",
+                        padding: "40px",
+                      }}
+                    >
+
+                      <h3>
+                        ⏳ Loading Users...
+                      </h3>
+
+                      <p
                         style={{
-                          background: "#dbeafe",
-                          color: "#1d4ed8",
-                          padding: "6px 12px",
-                          borderRadius: "20px",
-                          fontSize: "13px",
-                          fontWeight: "600",
+                          marginTop: "8px",
+                          color: "#64748b",
                         }}
                       >
-                        User
-                      </span>
-                    </td>
-
-                    <td>
-
-                      <button
-                        className="apply-btn"
-                        onClick={() =>
-                          deleteUser(user._id)
-                        }
-                      >
-                        Delete
-                      </button>
+                        Please wait while users are loading.
+                      </p>
 
                     </td>
 
                   </tr>
-                ))}
 
-                {/* No Users */}
+                ) : filteredUsers.length > 0 ? (
 
-                {filteredUsers.length === 0 && (
+                  /* ==========================
+                     USERS
+                  ========================== */
+
+                  filteredUsers.map((user) => (
+
+                    <tr
+                      key={user._id}
+                    >
+
+                      <td>
+                        {user.name}
+                      </td>
+
+                      <td>
+                        {user.email}
+                      </td>
+
+                      <td>
+
+                        <span
+                          style={{
+                            background: "#dbeafe",
+                            color: "#1d4ed8",
+                            padding: "6px 12px",
+                            borderRadius: "20px",
+                            fontSize: "13px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          User
+                        </span>
+
+                      </td>
+
+                      <td>
+
+                        <button
+                          className="apply-btn"
+                          onClick={() =>
+                            deleteUser(
+                              user._id
+                            )
+                          }
+                        >
+                          Delete
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                ) : (
+
+                  /* ==========================
+                     NO USERS
+                  ========================== */
+
                   <tr>
 
                     <td
@@ -199,6 +291,7 @@ function ManageUsers() {
                     </td>
 
                   </tr>
+
                 )}
 
               </tbody>
@@ -216,4 +309,3 @@ function ManageUsers() {
 }
 
 export default ManageUsers;
-

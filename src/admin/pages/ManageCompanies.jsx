@@ -11,31 +11,59 @@ function ManageCompanies() {
   const navigate = useNavigate();
 
   const [jobs, setJobs] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState([]);
+
+  // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
 
   // ==========================
   // Fetch Jobs
   // ==========================
+
   useEffect(() => {
     fetchJobs();
   }, []);
 
   const fetchJobs = async () => {
     try {
+      // ==========================
+      // START LOADING
+      // ==========================
+
+      setLoading(true);
+
       const res = await axios.get(
         "https://job-portal-backend-qlnk.onrender.com/api/jobs"
       );
 
       setJobs(res.data.jobs || []);
+
     } catch (error) {
-      console.log(error);
+      console.log(
+        "FETCH COMPANIES ERROR:",
+        error
+      );
+
+      setJobs([]);
+
       alert("Failed to load companies");
+
+    } finally {
+      // ==========================
+      // STOP LOADING
+      // ==========================
+
+      setLoading(false);
     }
   };
 
   // ==========================
   // Create Company List
   // ==========================
+
   const companies = [];
 
   jobs.forEach((job) => {
@@ -44,7 +72,8 @@ function ManageCompanies() {
     if (!companyName) return;
 
     const existingCompany = companies.find(
-      (company) => company.name === companyName
+      (company) =>
+        company.name === companyName
     );
 
     if (existingCompany) {
@@ -52,10 +81,15 @@ function ManageCompanies() {
 
       if (
         job.location &&
-        !existingCompany.locations.includes(job.location)
+        !existingCompany.locations.includes(
+          job.location
+        )
       ) {
-        existingCompany.locations.push(job.location);
+        existingCompany.locations.push(
+          job.location
+        );
       }
+
     } else {
       companies.push({
         name: companyName,
@@ -70,12 +104,18 @@ function ManageCompanies() {
   // ==========================
   // Search Companies
   // ==========================
-  const filteredCompanies = companies.filter(
-    (company) =>
-      `${company.name} ${company.locations.join(" ")}`
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  );
+
+  const filteredCompanies =
+    companies.filter(
+      (company) =>
+        `${company.name} ${company.locations.join(
+          " "
+        )}`
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+    );
 
   return (
     <div className="admin-layout">
@@ -103,7 +143,8 @@ function ManageCompanies() {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent:
+                "space-between",
               alignItems: "center",
               marginBottom: "20px",
             }}
@@ -111,7 +152,9 @@ function ManageCompanies() {
 
             <div>
 
-              <h2>Manage Companies</h2>
+              <h2>
+                Manage Companies
+              </h2>
 
               <p
                 style={{
@@ -119,8 +162,9 @@ function ManageCompanies() {
                   color: "#64748b",
                 }}
               >
-                Total Companies:{" "}
-                {companies.length}
+                {loading
+                  ? "Loading companies..."
+                  : `Total Companies: ${companies.length}`}
               </p>
 
             </div>
@@ -142,7 +186,8 @@ function ManageCompanies() {
               width: "100%",
               padding: "14px 16px",
               borderRadius: "10px",
-              border: "1px solid #dbe4f0",
+              border:
+                "1px solid #dbe4f0",
               marginBottom: "20px",
               fontSize: "15px",
               outline: "none",
@@ -174,85 +219,128 @@ function ManageCompanies() {
 
               <tbody>
 
-                {filteredCompanies.map(
-                  (company) => (
-
-                    <tr
-                      key={company.name}
-                    >
-
-                      {/* Company */}
-
-                      <td>
-
-                        <strong>
-                          {company.name}
-                        </strong>
-
-                      </td>
-
-                      {/* Total Jobs */}
-
-                      <td>
-                        {company.jobs}
-                      </td>
-
-                      {/* Locations */}
-
-                      <td>
-                        {company.locations.length >
-                          0
-                          ? company.locations.join(
-                            ", "
-                          )
-                          : "N/A"}
-                      </td>
-
-                      {/* Action */}
-
-                      <td>
-
-                        <button
-                          className="dashboard-view-btn"
-                          onClick={() =>
-                            navigate(
-                              `/admin/jobs?company=${encodeURIComponent(company.name)}`
-                            )
-                          }
-                        >
-                          View Jobs
-                        </button>
-
-                      </td>
-
-                    </tr>
-
-                  )
-                )}
-
                 {/* ==========================
-                    NO COMPANIES
+                    LOADING
                 ========================== */}
 
-                {filteredCompanies.length ===
-                  0 && (
+                {loading ? (
 
-                    <tr>
+                  <tr>
 
-                      <td
-                        colSpan="4"
+                    <td
+                      colSpan="4"
+                      style={{
+                        textAlign:
+                          "center",
+                        padding: "40px",
+                      }}
+                    >
+
+                      <h3>
+                        ⏳ Loading Companies...
+                      </h3>
+
+                      <p
                         style={{
-                          textAlign:
-                            "center",
-                          padding: "30px",
+                          marginTop: "8px",
+                          color: "#64748b",
                         }}
                       >
-                        No Companies Found
-                      </td>
+                        Please wait while companies are loading.
+                      </p>
 
-                    </tr>
+                    </td>
 
-                  )}
+                  </tr>
+
+                ) : filteredCompanies.length > 0 ? (
+
+                  /* ==========================
+                     COMPANIES
+                  ========================== */
+
+                  filteredCompanies.map(
+                    (company) => (
+
+                      <tr
+                        key={company.name}
+                      >
+
+                        {/* Company */}
+
+                        <td>
+
+                          <strong>
+                            {company.name}
+                          </strong>
+
+                        </td>
+
+                        {/* Total Jobs */}
+
+                        <td>
+                          {company.jobs}
+                        </td>
+
+                        {/* Locations */}
+
+                        <td>
+
+                          {company.locations
+                            .length > 0
+                            ? company.locations.join(
+                                ", "
+                              )
+                            : "N/A"}
+
+                        </td>
+
+                        {/* Action */}
+
+                        <td>
+
+                          <button
+                            className="dashboard-view-btn"
+                            onClick={() =>
+                              navigate(
+                                `/admin/jobs?company=${encodeURIComponent(
+                                  company.name
+                                )}`
+                              )
+                            }
+                          >
+                            View Jobs
+                          </button>
+
+                        </td>
+
+                      </tr>
+
+                    )
+                  )
+
+                ) : (
+
+                  /* ==========================
+                     NO COMPANIES
+                  ========================== */
+
+                  <tr>
+
+                    <td
+                      colSpan="4"
+                      style={{
+                        textAlign:
+                          "center",
+                        padding: "30px",
+                      }}
+                    >
+                      No Companies Found
+                    </td>
+
+                  </tr>
+
+                )}
 
               </tbody>
 
@@ -269,4 +357,3 @@ function ManageCompanies() {
 }
 
 export default ManageCompanies;
-
