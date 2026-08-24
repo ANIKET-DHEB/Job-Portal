@@ -24,17 +24,27 @@ function AdminDashboard() {
   const [applications, setApplications] = useState([]);
 
   // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
+
+  // ==========================
   // Fetch Dashboard Data
   // ==========================
+
   useEffect(() => {
     fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {
     try {
+      setLoading(true);
+
       // ==========================
       // Get Login Token
       // ==========================
+
       const token = localStorage.getItem("token");
 
       // Check token
@@ -51,6 +61,7 @@ function AdminDashboard() {
       // ==========================
       // Authorization Header
       // ==========================
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,6 +71,7 @@ function AdminDashboard() {
       // ==========================
       // API Requests
       // ==========================
+
       const [jobsRes, usersRes, applicationsRes] =
         await Promise.all([
           axios.get(
@@ -80,6 +92,7 @@ function AdminDashboard() {
       // ==========================
       // Save Data
       // ==========================
+
       setJobs(jobsRes.data.jobs || []);
 
       setUsers(usersRes.data.users || []);
@@ -89,6 +102,7 @@ function AdminDashboard() {
       );
 
       console.log("✅ Dashboard Data Loaded");
+
     } catch (error) {
       console.log(
         "Dashboard Data Error:",
@@ -110,12 +124,16 @@ function AdminDashboard() {
 
         navigate("/login");
       }
+
+    } finally {
+      setLoading(false);
     }
   };
 
   // ==========================
   // Company Count
   // ==========================
+
   const companyCount = [
     ...new Set(
       jobs
@@ -127,14 +145,17 @@ function AdminDashboard() {
   // ==========================
   // Shortlisted Count
   // ==========================
-  const shortlistedCount = applications.filter(
-    (application) =>
-      application.status === "Shortlisted"
-  ).length;
+
+  const shortlistedCount =
+    applications.filter(
+      (application) =>
+        application.status === "Shortlisted"
+    ).length;
 
   // ==========================
   // Recent Jobs
   // ==========================
+
   const recentJobs = [...jobs]
     .sort(
       (a, b) =>
@@ -146,17 +167,20 @@ function AdminDashboard() {
   // ==========================
   // Recent Applications
   // ==========================
-  const recentApplications = [...applications]
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt) -
-        new Date(a.createdAt)
-    )
-    .slice(0, 5);
+
+  const recentApplications =
+    [...applications]
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt) -
+          new Date(a.createdAt)
+      )
+      .slice(0, 5);
 
   // ==========================
   // Status Class
   // ==========================
+
   const getStatusClass = (status) => {
     switch (status) {
       case "Reviewed":
@@ -191,306 +215,356 @@ function AdminDashboard() {
         <AdminNavbar />
 
         {/* ==========================
-            DASHBOARD CARDS
+            LOADING MESSAGE
         ========================== */}
 
-        <div className="admin-cards">
-
-          <AdminCard
-            title="Total Jobs"
-            count={jobs.length}
-            icon={<FaBriefcase />}
-          />
-
-          <AdminCard
-            title="Total Users"
-            count={users.length}
-            icon={<FaUsers />}
-          />
-
-          <AdminCard
-            title="Applications"
-            count={applications.length}
-            icon={<FaFileAlt />}
-          />
-
-          <AdminCard
-            title="Companies"
-            count={companyCount}
-            icon={<FaBuilding />}
-          />
-
-          <AdminCard
-            title="Shortlisted"
-            count={shortlistedCount}
-            icon={<FaUserCheck />}
-          />
-
-        </div>
-
-        {/* ==========================
-            RECENT JOBS
-        ========================== */}
-
-        <div className="recent-section">
+        {loading ? (
 
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
+              textAlign: "center",
+              padding: "80px 20px",
             }}
           >
+            <h2>
+              ⏳ Loading Admin Dashboard...
+            </h2>
 
-            <div>
+            <p
+              style={{
+                marginTop: "10px",
+                color: "#64748b",
+              }}
+            >
+              Please wait while dashboard data is loading.
+            </p>
+          </div>
 
-              <h2>Recent Jobs</h2>
+        ) : (
 
-              <p
-                style={{
-                  color: "#64748b",
-                  marginTop: "5px",
-                }}
-              >
-                Latest jobs added to the portal
-              </p>
+          <>
+
+            {/* ==========================
+                DASHBOARD CARDS
+            ========================== */}
+
+            <div className="admin-cards">
+
+              <AdminCard
+                title="Total Jobs"
+                count={jobs.length}
+                icon={<FaBriefcase />}
+              />
+
+              <AdminCard
+                title="Total Users"
+                count={users.length}
+                icon={<FaUsers />}
+              />
+
+              <AdminCard
+                title="Applications"
+                count={applications.length}
+                icon={<FaFileAlt />}
+              />
+
+              <AdminCard
+                title="Companies"
+                count={companyCount}
+                icon={<FaBuilding />}
+              />
+
+              <AdminCard
+                title="Shortlisted"
+                count={shortlistedCount}
+                icon={<FaUserCheck />}
+              />
 
             </div>
 
-            <button
-              className="dashboard-view-btn"
-              onClick={() =>
-                navigate("/admin/jobs")
-              }
-            >
-              View All
-            </button>
+            {/* ==========================
+                RECENT JOBS
+            ========================== */}
 
-          </div>
+            <div className="recent-section">
 
-          <div style={{ overflowX: "auto" }}>
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Job</th>
-                  <th>Company</th>
-                  <th>Location</th>
-                  <th>Type</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {recentJobs.map((job) => (
-
-                  <tr key={job._id}>
-
-                    <td>
-                      {job.title}
-                    </td>
-
-                    <td>
-                      {job.company}
-                    </td>
-
-                    <td>
-                      {job.location}
-                    </td>
-
-                    <td>
-                      {job.jobType || "N/A"}
-                    </td>
-
-                  </tr>
-
-                ))}
-
-                {recentJobs.length === 0 && (
-
-                  <tr>
-
-                    <td
-                      colSpan="4"
-                      style={{
-                        textAlign: "center",
-                        padding: "25px",
-                      }}
-                    >
-                      No Jobs Found
-                    </td>
-
-                  </tr>
-
-                )}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-        {/* ==========================
-            RECENT APPLICATIONS
-        ========================== */}
-
-        <div className="recent-section">
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
-
-            <div>
-
-              <h2>Recent Applications</h2>
-
-              <p
+              <div
                 style={{
-                  color: "#64748b",
-                  marginTop: "5px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "20px",
                 }}
               >
-                Latest applications received
-              </p>
 
-            </div>
+                <div>
 
-            <button
-              className="dashboard-view-btn"
-              onClick={() =>
-                navigate("/admin/applications")
-              }
-            >
-              View All
-            </button>
+                  <h2>
+                    Recent Jobs
+                  </h2>
 
-          </div>
+                  <p
+                    style={{
+                      color: "#64748b",
+                      marginTop: "5px",
+                    }}
+                  >
+                    Latest jobs added to the portal
+                  </p>
 
-          <div style={{ overflowX: "auto" }}>
+                </div>
 
-            <table>
+                <button
+                  className="dashboard-view-btn"
+                  onClick={() =>
+                    navigate("/admin/jobs")
+                  }
+                >
+                  View All
+                </button>
 
-              <thead>
+              </div>
 
-                <tr>
-                  <th>Applicant</th>
-                  <th>Job</th>
-                  <th>Company</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
+              <div
+                style={{
+                  overflowX: "auto",
+                }}
+              >
 
-              </thead>
+                <table>
 
-              <tbody>
+                  <thead>
 
-                {recentApplications.map(
-                  (application) => {
+                    <tr>
+                      <th>Job</th>
+                      <th>Company</th>
+                      <th>Location</th>
+                      <th>Type</th>
+                    </tr>
 
-                    const currentStatus =
-                      application.status ||
-                      "Pending";
+                  </thead>
 
-                    return (
+                  <tbody>
 
-                      <tr
-                        key={
-                          application._id
-                        }
-                      >
+                    {recentJobs.length > 0 ? (
 
-                        <td>
-                          {
-                            application.fullName
-                          }
-                        </td>
+                      recentJobs.map((job) => (
 
-                        <td>
-                          {
-                            application
-                              .jobId?.title ||
-                            "N/A"
-                          }
-                        </td>
+                        <tr key={job._id}>
 
-                        <td>
-                          {
-                            application
-                              .jobId?.company ||
-                            "N/A"
-                          }
-                        </td>
+                          <td>
+                            {job.title}
+                          </td>
 
-                        <td>
+                          <td>
+                            {job.company}
+                          </td>
 
-                          <span
-                            className={`application-status ${getStatusClass(
-                              currentStatus
-                            )}`}
-                          >
-                            {currentStatus}
-                          </span>
+                          <td>
+                            {job.location}
+                          </td>
 
-                        </td>
+                          <td>
+                            {job.jobType || "N/A"}
+                          </td>
 
-                        <td>
+                        </tr>
 
-                          <button
-                            className="details-btn"
-                            onClick={() =>
-                              navigate(
-                                `/admin/applications/${application._id}`
-                              )
-                            }
-                          >
-                            View
-                          </button>
+                      ))
 
+                    ) : (
+
+                      <tr>
+
+                        <td
+                          colSpan="4"
+                          style={{
+                            textAlign: "center",
+                            padding: "25px",
+                          }}
+                        >
+                          No Jobs Found
                         </td>
 
                       </tr>
 
-                    );
+                    )}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+
+            {/* ==========================
+                RECENT APPLICATIONS
+            ========================== */}
+
+            <div className="recent-section">
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
+
+                <div>
+
+                  <h2>
+                    Recent Applications
+                  </h2>
+
+                  <p
+                    style={{
+                      color: "#64748b",
+                      marginTop: "5px",
+                    }}
+                  >
+                    Latest applications received
+                  </p>
+
+                </div>
+
+                <button
+                  className="dashboard-view-btn"
+                  onClick={() =>
+                    navigate("/admin/applications")
                   }
-                )}
+                >
+                  View All
+                </button>
 
-                {recentApplications.length ===
-                  0 && (
+              </div>
 
-                  <tr>
+              <div
+                style={{
+                  overflowX: "auto",
+                }}
+              >
 
-                    <td
-                      colSpan="5"
-                      style={{
-                        textAlign: "center",
-                        padding: "25px",
-                      }}
-                    >
-                      No Applications Found
-                    </td>
+                <table>
 
-                  </tr>
+                  <thead>
 
-                )}
+                    <tr>
+                      <th>Applicant</th>
+                      <th>Job</th>
+                      <th>Company</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
 
-              </tbody>
+                  </thead>
 
-            </table>
+                  <tbody>
 
-          </div>
+                    {recentApplications.length >
+                    0 ? (
 
-        </div>
+                      recentApplications.map(
+                        (application) => {
+
+                          const currentStatus =
+                            application.status ||
+                            "Pending";
+
+                          return (
+
+                            <tr
+                              key={
+                                application._id
+                              }
+                            >
+
+                              <td>
+                                {
+                                  application.fullName
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  application
+                                    .jobId?.title ||
+                                  "N/A"
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  application
+                                    .jobId?.company ||
+                                  "N/A"
+                                }
+                              </td>
+
+                              <td>
+
+                                <span
+                                  className={`application-status ${getStatusClass(
+                                    currentStatus
+                                  )}`}
+                                >
+                                  {currentStatus}
+                                </span>
+
+                              </td>
+
+                              <td>
+
+                                <button
+                                  className="details-btn"
+                                  onClick={() =>
+                                    navigate(
+                                      `/admin/applications/${application._id}`
+                                    )
+                                  }
+                                >
+                                  View
+                                </button>
+
+                              </td>
+
+                            </tr>
+
+                          );
+                        }
+                      )
+
+                    ) : (
+
+                      <tr>
+
+                        <td
+                          colSpan="5"
+                          style={{
+                            textAlign: "center",
+                            padding: "25px",
+                          }}
+                        >
+                          No Applications Found
+                        </td>
+
+                      </tr>
+
+                    )}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+
+          </>
+
+        )}
 
       </div>
 
@@ -499,4 +573,3 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
-
