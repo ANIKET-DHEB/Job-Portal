@@ -29,7 +29,6 @@ function ManageCompanies() {
 
   const fetchJobs = async () => {
     try {
-      // Start loading
       setLoading(true);
 
       const res = await axios.get(
@@ -54,7 +53,6 @@ function ManageCompanies() {
       alert("Failed to load companies");
 
     } finally {
-      // Stop loading after API finishes
       setLoading(false);
     }
   };
@@ -66,35 +64,46 @@ function ManageCompanies() {
   const companies = [];
 
   jobs.forEach((job) => {
-    const companyName = job.company;
+    const companyName = String(
+      job.company || ""
+    ).trim();
 
     if (!companyName) return;
 
     const existingCompany = companies.find(
       (company) =>
-        company.name === companyName
+        company.name.toLowerCase() ===
+        companyName.toLowerCase()
     );
 
     if (existingCompany) {
       existingCompany.jobs += 1;
 
+      const jobLocation = String(
+        job.location || ""
+      ).trim();
+
       if (
-        job.location &&
+        jobLocation &&
         !existingCompany.locations.includes(
-          job.location
+          jobLocation
         )
       ) {
         existingCompany.locations.push(
-          job.location
+          jobLocation
         );
       }
 
     } else {
+      const jobLocation = String(
+        job.location || ""
+      ).trim();
+
       companies.push({
         name: companyName,
         jobs: 1,
-        locations: job.location
-          ? [job.location]
+        locations: jobLocation
+          ? [jobLocation]
           : [],
       });
     }
@@ -105,15 +114,33 @@ function ManageCompanies() {
   // ==========================
 
   const filteredCompanies =
-    companies.filter((company) =>
-      `${company.name} ${company.locations.join(
-        " "
-      )}`
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
+    companies.filter((company) => {
+
+      const companyText = String(
+        company.name || ""
+      ).toLowerCase();
+
+      const locationText = (
+        company.locations || []
+      )
+        .map((location) =>
+          String(location || "")
         )
-    );
+        .join(" ")
+        .toLowerCase();
+
+      const searchText = String(
+        search || ""
+      ).toLowerCase();
+
+      return `${companyText} ${locationText}`.includes(
+        searchText
+      );
+    });
+
+  // ==========================
+  // Render
+  // ==========================
 
   return (
     <div className="admin-layout">
@@ -141,8 +168,7 @@ function ManageCompanies() {
           <div
             style={{
               display: "flex",
-              justifyContent:
-                "space-between",
+              justifyContent: "space-between",
               alignItems: "center",
               marginBottom: "20px",
             }}
@@ -176,7 +202,7 @@ function ManageCompanies() {
           <input
             type="text"
             placeholder="Search company or location..."
-            value={search}
+            value={String(search || "")}
             onChange={(e) =>
               setSearch(e.target.value)
             }
@@ -254,7 +280,7 @@ function ManageCompanies() {
                 ) : filteredCompanies.length > 0 ? (
 
                   /* ==========================
-                     COMPANIES
+                      COMPANIES
                   ========================== */
 
                   filteredCompanies.map(
@@ -320,7 +346,7 @@ function ManageCompanies() {
                 ) : (
 
                   /* ==========================
-                     NO COMPANIES
+                      NO COMPANIES
                   ========================== */
 
                   <tr>
