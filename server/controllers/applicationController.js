@@ -1,39 +1,39 @@
 const Application = require("../models/Application");
 const Job = require("../models/job");
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
 require("dotenv").config();
 
 // ===============================
-// RESEND EMAIL CONFIGURATION
+// BREVO SMTP EMAIL CONFIGURATION
 // ===============================
 
-const resend = new Resend(
-  process.env.RESEND_API_KEY
-);
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT || 587),
+  secure: false,
+
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+// ===============================
+// VERIFY EMAIL CONNECTION
+// ===============================
+
+transporter.verify((error) => {
+  if (error) {
+    console.log("❌ EMAIL CONFIGURATION ERROR:");
+    console.log(error.message);
+  } else {
+    console.log("✅ BREVO EMAIL SERVER READY");
+  }
+});
 
 // ===============================
 // EMAIL SENDER
-// ===============================
-// IMPORTANT:
-// For production, use an email/domain verified
-// inside your Resend account.
-//
-// Example:
-// Job Portal <noreply@yourdomain.com>
-//
-// For initial Resend testing, you can use:
-// onboarding@resend.dev
-//
-// Set RESEND_FROM_EMAIL in Render Environment Variables.
-// ===============================
-
-const EMAIL_FROM =
-  process.env.RESEND_FROM_EMAIL ||
-  "Job Portal <onboarding@resend.dev>";
-
-// ===============================
-// SEND EMAIL HELPER
 // ===============================
 
 const sendEmail = async ({
@@ -42,25 +42,12 @@ const sendEmail = async ({
   html,
 }) => {
   try {
-    const { data, error } =
-      await resend.emails.send({
-        from: EMAIL_FROM,
-        to: [to],
-        subject,
-        html,
-      });
-
-    if (error) {
-      console.log(
-        "❌ RESEND EMAIL ERROR:",
-        error
-      );
-
-      return {
-        success: false,
-        error,
-      };
-    }
+    const info = await transporter.sendMail({
+      from: `"Job Portal" <${process.env.SMTP_FROM}>`,
+      to,
+      subject,
+      html,
+    });
 
     console.log(
       "✅ EMAIL SENT SUCCESSFULLY:",
@@ -68,17 +55,19 @@ const sendEmail = async ({
     );
 
     console.log(
-      "📧 RESEND EMAIL ID:",
-      data?.id
+      "📧 MESSAGE ID:",
+      info.messageId
     );
 
     return {
       success: true,
-      data,
+      data: info,
     };
+
   } catch (error) {
+
     console.log(
-      "❌ EMAIL SEND ERROR:",
+      "❌ BREVO EMAIL ERROR:",
       error.message
     );
 
@@ -95,6 +84,7 @@ const sendEmail = async ({
 
 const applyJob = async (req, res) => {
   try {
+
     const {
       fullName,
       email,
@@ -187,6 +177,7 @@ const applyJob = async (req, res) => {
     let companyName = "Company";
 
     try {
+
       const job =
         await Job.findById(jobId);
 
@@ -197,11 +188,14 @@ const applyJob = async (req, res) => {
         companyName =
           job.company || "Company";
       }
+
     } catch (jobError) {
+
       console.log(
         "JOB DETAILS ERROR:",
         jobError.message
       );
+
     }
 
     // ===============================
@@ -209,7 +203,9 @@ const applyJob = async (req, res) => {
     // ===============================
 
     if (email) {
+
       sendEmail({
+
         to: email,
 
         subject:
@@ -220,9 +216,11 @@ const applyJob = async (req, res) => {
             <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
 
               <div style="background:#2563eb;padding:25px;text-align:center;">
+
                 <h1 style="margin:0;color:#ffffff;font-size:26px;">
                   🎉 Application Received
                 </h1>
+
               </div>
 
               <div style="padding:30px;">
@@ -278,12 +276,8 @@ const applyJob = async (req, res) => {
             </div>
           </div>
         `,
-      }).catch((emailError) => {
-        console.log(
-          "❌ APPLICATION EMAIL ERROR:",
-          emailError
-        );
       });
+
     }
 
     // ===============================
@@ -291,21 +285,29 @@ const applyJob = async (req, res) => {
     // ===============================
 
     return res.status(201).json({
+
       success: true,
+
       message:
         "Application Submitted Successfully 🎉",
+
       application,
+
     });
 
   } catch (error) {
+
     console.log(
       "APPLICATION ERROR:",
       error
     );
 
     return res.status(500).json({
+
       success: false,
+
       message: error.message,
+
     });
   }
 };
@@ -315,22 +317,33 @@ const applyJob = async (req, res) => {
 // ===============================
 
 const getApplications = async (req, res) => {
+
   try {
+
     if (!req.user || !req.user.id) {
+
       return res.status(401).json({
+
         success: false,
-        message: "User not authenticated",
+
+        message:
+          "User not authenticated",
+
       });
     }
 
     let query = {};
 
     if (req.user.role === "admin") {
+
       query = {};
+
     } else {
+
       query = {
         userId: req.user.id,
       };
+
     }
 
     const applications =
@@ -348,20 +361,29 @@ const getApplications = async (req, res) => {
         });
 
     res.status(200).json({
+
       success: true,
-      count: applications.length,
+
+      count:
+        applications.length,
+
       applications,
+
     });
 
   } catch (error) {
+
     console.log(
       "GET APPLICATIONS ERROR:",
       error
     );
 
     res.status(500).json({
+
       success: false,
+
       message: error.message,
+
     });
   }
 };
@@ -374,7 +396,9 @@ const getApplicationById = async (
   req,
   res
 ) => {
+
   try {
+
     const application =
       await Application.findById(
         req.params.id
@@ -389,10 +413,14 @@ const getApplicationById = async (
         );
 
     if (!application) {
+
       return res.status(404).json({
+
         success: false,
+
         message:
           "Application not found",
+
       });
     }
 
@@ -401,27 +429,38 @@ const getApplicationById = async (
       application.userId?._id.toString() !==
         req.user.id.toString()
     ) {
+
       return res.status(403).json({
+
         success: false,
+
         message:
           "You are not authorized to view this application.",
+
       });
     }
 
     res.status(200).json({
+
       success: true,
+
       application,
+
     });
 
   } catch (error) {
+
     console.log(
       "GET APPLICATION ERROR:",
       error
     );
 
     res.status(500).json({
+
       success: false,
+
       message: error.message,
+
     });
   }
 };
@@ -432,6 +471,7 @@ const getApplicationById = async (
 
 const updateApplicationStatus =
   async (req, res) => {
+
     try {
 
       // ===============================
@@ -439,10 +479,14 @@ const updateApplicationStatus =
       // ===============================
 
       if (req.user.role !== "admin") {
+
         return res.status(403).json({
+
           success: false,
+
           message:
             "Only admin can update application status.",
+
         });
       }
 
@@ -453,19 +497,28 @@ const updateApplicationStatus =
       // ===============================
 
       const allowedStatuses = [
+
         "Pending",
+
         "Reviewed",
+
         "Shortlisted",
+
         "Rejected",
+
       ];
 
       if (
         !allowedStatuses.includes(status)
       ) {
+
         return res.status(400).json({
+
           success: false,
+
           message:
             "Invalid application status",
+
         });
       }
 
@@ -479,10 +532,14 @@ const updateApplicationStatus =
         );
 
       if (!application) {
+
         return res.status(404).json({
+
           success: false,
+
           message:
             "Application not found",
+
         });
       }
 
@@ -512,23 +569,29 @@ const updateApplicationStatus =
       let companyName = "Company";
 
       try {
+
         const job =
           await Job.findById(
             application.jobId
           );
 
         if (job) {
+
           jobTitle =
             job.title || "Job";
 
           companyName =
             job.company || "Company";
+
         }
+
       } catch (jobError) {
+
         console.log(
           "JOB DETAILS ERROR:",
           jobError.message
         );
+
       }
 
       // ===============================
@@ -589,11 +652,13 @@ const updateApplicationStatus =
                     </p>
 
                     <p style="margin:8px 0;color:#334155;">
+
                       <strong>Status:</strong>
 
                       <span style="color:#16a34a;font-weight:bold;">
                         Shortlisted
                       </span>
+
                     </p>
 
                   </div>
@@ -609,8 +674,11 @@ const updateApplicationStatus =
                   <div style="margin:25px 0;padding:18px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
 
                     <p style="margin:0;color:#475569;font-size:14px;line-height:1.6;">
+
                       <strong>Important:</strong>
+
                       Please keep checking your email and phone for further communication from our recruitment team.
+
                     </p>
 
                   </div>
@@ -635,7 +703,9 @@ const updateApplicationStatus =
               </div>
             </div>
           `,
+
         });
+
       }
 
       // ===============================
@@ -688,11 +758,13 @@ const updateApplicationStatus =
                     </p>
 
                     <p style="margin:8px 0;color:#334155;">
+
                       <strong>Status:</strong>
 
                       <span style="color:#dc2626;font-weight:bold;">
                         Rejected
                       </span>
+
                     </p>
 
                   </div>
@@ -721,7 +793,9 @@ const updateApplicationStatus =
               </div>
             </div>
           `,
+
         });
+
       }
 
       // ===============================
@@ -752,30 +826,41 @@ const updateApplicationStatus =
         status === "Shortlisted" &&
         statusChanged
       ) {
+
         responseMessage =
           "Application shortlisted and email sent successfully.";
+
       }
 
       if (
         status === "Rejected" &&
         statusChanged
       ) {
+
         responseMessage =
           "Application rejected and email sent successfully.";
+
       }
 
       if (!statusChanged) {
+
         responseMessage =
           "Application status is already " +
           status +
           ".";
+
       }
 
       res.status(200).json({
+
         success: true,
-        message: responseMessage,
+
+        message:
+          responseMessage,
+
         application:
           updatedApplication,
+
       });
 
     } catch (error) {
@@ -786,9 +871,13 @@ const updateApplicationStatus =
       );
 
       res.status(500).json({
+
         success: false,
+
         message: error.message,
+
       });
+
     }
   };
 
@@ -798,6 +887,7 @@ const updateApplicationStatus =
 
 const deleteApplication =
   async (req, res) => {
+
     try {
 
       const application =
@@ -806,11 +896,16 @@ const deleteApplication =
         );
 
       if (!application) {
+
         return res.status(404).json({
+
           success: false,
+
           message:
             "Application not found",
+
         });
+
       }
 
       if (
@@ -818,11 +913,16 @@ const deleteApplication =
         application.userId.toString() !==
           req.user.id.toString()
       ) {
+
         return res.status(403).json({
+
           success: false,
+
           message:
             "You are not authorized to delete this application.",
+
         });
+
       }
 
       await Application.findByIdAndDelete(
@@ -830,9 +930,12 @@ const deleteApplication =
       );
 
       res.status(200).json({
+
         success: true,
+
         message:
           "Application deleted successfully",
+
       });
 
     } catch (error) {
@@ -843,9 +946,13 @@ const deleteApplication =
       );
 
       res.status(500).json({
+
         success: false,
+
         message: error.message,
+
       });
+
     }
   };
 
@@ -854,9 +961,15 @@ const deleteApplication =
 // ===============================
 
 module.exports = {
+
   applyJob,
+
   getApplications,
+
   getApplicationById,
+
   updateApplicationStatus,
+
   deleteApplication,
+
 };
