@@ -17,6 +17,12 @@ function ManageJobs() {
 
   const [jobs, setJobs] = useState([]);
 
+  // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
+
   // Search
   const [search, setSearch] = useState("");
 
@@ -34,13 +40,21 @@ function ManageJobs() {
   }, []);
 
   const fetchJobs = () => {
+    setLoading(true);
+
     axios
-      .get("https://job-portal-backend-qlnk.onrender.com/api/jobs")
+      .get(
+        "https://job-portal-backend-qlnk.onrender.com/api/jobs"
+      )
       .then((res) => {
         setJobs(res.data.jobs || []);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("FETCH ADMIN JOBS ERROR:", err);
+        setJobs([]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -434,15 +448,23 @@ function ManageJobs() {
             }}
           >
 
-            Showing{" "}
-            <strong>
-              {filteredJobs.length}
-            </strong>{" "}
-            of{" "}
-            <strong>
-              {jobs.length}
-            </strong>{" "}
-            jobs
+            {loading ? (
+              <>
+                Loading jobs...
+              </>
+            ) : (
+              <>
+                Showing{" "}
+                <strong>
+                  {filteredJobs.length}
+                </strong>{" "}
+                of{" "}
+                <strong>
+                  {jobs.length}
+                </strong>{" "}
+                jobs
+              </>
+            )}
 
           </div>
 
@@ -492,7 +514,35 @@ function ManageJobs() {
 
               <tbody>
 
-                {filteredJobs.length > 0 ? (
+                {loading ? (
+
+                  <tr>
+
+                    <td
+                      colSpan="5"
+                      style={{
+                        textAlign: "center",
+                        padding: "40px",
+                      }}
+                    >
+                      <h3>
+                        ⏳ Loading Jobs...
+                      </h3>
+
+                      <p
+                        style={{
+                          marginTop: "8px",
+                          color: "#64748b",
+                        }}
+                      >
+                        Please wait while jobs are loading.
+                      </p>
+
+                    </td>
+
+                  </tr>
+
+                ) : filteredJobs.length > 0 ? (
 
                   filteredJobs.map((job) => (
 
@@ -595,4 +645,3 @@ function ManageJobs() {
 }
 
 export default ManageJobs;
-
