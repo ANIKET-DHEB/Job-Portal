@@ -6,9 +6,11 @@ import "../styles/ApplyJob.css";
 
 function ApplyJob() {
   const { id } = useParams();
-
-console.log("APPLY JOB ID:", id);
   const navigate = useNavigate();
+
+  // ==========================
+  // Form State
+  // ==========================
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +28,12 @@ console.log("APPLY JOB ID:", id);
   // ==========================
 
   const [resume, setResume] = useState(null);
+
+  // ==========================
+  // Submit State
+  // ==========================
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ==========================
   // Handle Input
@@ -82,10 +90,18 @@ console.log("APPLY JOB ID:", id);
     e.preventDefault();
 
     // ==========================
+    // Prevent Double Submit
+    // ==========================
+
+    if (isSubmitting) {
+      return;
+    }
+
+    // ==========================
     // Check Login
     // ==========================
 
-   const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem("userToken");
 
     if (!token) {
       alert("Please login before applying for a job.");
@@ -101,6 +117,12 @@ console.log("APPLY JOB ID:", id);
       alert("Please upload your resume.");
       return;
     }
+
+    // ==========================
+    // Start Submit
+    // ==========================
+
+    setIsSubmitting(true);
 
     try {
       // ==========================
@@ -136,6 +158,10 @@ console.log("APPLY JOB ID:", id);
         }
       );
 
+      // ==========================
+      // Success
+      // ==========================
+
       alert("🎉 Application Submitted Successfully!");
 
       // ==========================
@@ -168,16 +194,30 @@ console.log("APPLY JOB ID:", id);
         error.response?.data
       );
 
-      alert(
-        error.response?.data?.message ||
-          "❌ Failed to submit application"
-      );
+      // ==========================
+      // Handle Duplicate
+      // ==========================
+
+      if (
+        error.response?.status === 400 &&
+        error.response?.data?.message ===
+          "You have already applied for this job."
+      ) {
+        alert("You have already applied for this job.");
+      } else {
+        alert(
+          error.response?.data?.message ||
+            "❌ Failed to submit application. Please try again."
+        );
+      }
+
+      // Allow retry after failure
+      setIsSubmitting(false);
     }
   }
 
   return (
     <div className="apply-page">
-
       <div className="apply-container">
 
         <h1>Apply for Job</h1>
@@ -349,17 +389,20 @@ console.log("APPLY JOB ID:", id);
               SUBMIT
           ========================== */}
 
-          <button type="submit">
-            Submit Application
+          <button
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? "Submitting..."
+              : "Submit Application"}
           </button>
 
         </form>
 
       </div>
-
     </div>
   );
 }
 
 export default ApplyJob;
-
