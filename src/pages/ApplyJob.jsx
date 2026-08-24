@@ -6,6 +6,8 @@ import "../styles/ApplyJob.css";
 
 function ApplyJob() {
   const { id } = useParams();
+
+console.log("APPLY JOB ID:", id);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -83,7 +85,7 @@ function ApplyJob() {
     // Check Login
     // ==========================
 
-    const token = localStorage.getItem("token");
+   const token = localStorage.getItem("userToken");
 
     if (!token) {
       alert("Please login before applying for a job.");
