@@ -11,7 +11,7 @@ function ManageCompanies() {
   const navigate = useNavigate();
 
   const [jobs, setJobs] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   // ==========================
   // LOADING STATE
@@ -29,14 +29,16 @@ function ManageCompanies() {
 
   const fetchJobs = async () => {
     try {
-      // ==========================
-      // START LOADING
-      // ==========================
-
+      // Start loading
       setLoading(true);
 
       const res = await axios.get(
         "https://job-portal-backend-qlnk.onrender.com/api/jobs"
+      );
+
+      console.log(
+        "COMPANIES JOB DATA:",
+        res.data.jobs
       );
 
       setJobs(res.data.jobs || []);
@@ -52,10 +54,7 @@ function ManageCompanies() {
       alert("Failed to load companies");
 
     } finally {
-      // ==========================
-      // STOP LOADING
-      // ==========================
-
+      // Stop loading after API finishes
       setLoading(false);
     }
   };
@@ -106,15 +105,14 @@ function ManageCompanies() {
   // ==========================
 
   const filteredCompanies =
-    companies.filter(
-      (company) =>
-        `${company.name} ${company.locations.join(
-          " "
-        )}`
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
+    companies.filter((company) =>
+      `${company.name} ${company.locations.join(
+        " "
+      )}`
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
     );
 
   return (
@@ -286,8 +284,8 @@ function ManageCompanies() {
 
                         <td>
 
-                          {company.locations
-                            .length > 0
+                          {company.locations.length >
+                          0
                             ? company.locations.join(
                                 ", "
                               )
