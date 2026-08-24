@@ -20,6 +20,12 @@ import {
 function MyApplications() {
   const [applications, setApplications] = useState([]);
 
+  // ==========================
+  // LOADING STATE
+  // ==========================
+
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   // ==========================
@@ -40,6 +46,8 @@ function MyApplications() {
 
   const fetchApplications = async () => {
     try {
+      setLoading(true);
+
       // ==========================
       // GET CURRENT USER TOKEN
       // ==========================
@@ -121,6 +129,9 @@ function MyApplications() {
         error.response?.data?.message ||
           "Failed to load applications."
       );
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -288,7 +299,25 @@ function MyApplications() {
 
       <div className="applications-container">
 
-        {applications.length > 0 ? (
+        {/* ==========================
+            LOADING
+        ========================== */}
+
+        {loading ? (
+
+          <div className="no-data">
+
+            <h2>
+              ⏳ Loading Applications...
+            </h2>
+
+            <p>
+              Please wait while we fetch your applications.
+            </p>
+
+          </div>
+
+        ) : applications.length > 0 ? (
 
           applications.map((application) => (
 
