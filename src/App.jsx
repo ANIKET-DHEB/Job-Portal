@@ -5,6 +5,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
+import DownloadApp from "./pages/DownloadApp";
 import Jobs from "./pages/Jobs";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -43,7 +44,12 @@ function App() {
   const location = useLocation();
 
   // Hide website Navbar/Footer on admin pages
-  const isAdminPage = location.pathname.startsWith("/admin");
+  const isAdminPage =
+    location.pathname.startsWith("/admin");
+
+  // Hide website Navbar/Footer on download page
+  const isDownloadPage =
+    location.pathname === "/download";
 
   return (
     <>
@@ -51,7 +57,9 @@ function App() {
           WEBSITE NAVBAR
       ========================== */}
 
-      {!isAdminPage && <Navbar />}
+      {!isAdminPage && !isDownloadPage && (
+        <Navbar />
+      )}
 
       {/* ==========================
           SCROLL TO TOP
@@ -69,6 +77,15 @@ function App() {
         <Route
           path="/"
           element={<Home />}
+        />
+
+        {/* ==========================
+            DOWNLOAD APP
+        ========================== */}
+
+        <Route
+          path="/download"
+          element={<DownloadApp />}
         />
 
         {/* ==========================
@@ -298,10 +315,9 @@ function App() {
           }
         />
 
-
         {/* ==========================
-         STATIC PAGES
-         ========================== */}
+            STATIC PAGES
+        ========================== */}
 
         <Route
           path="/about"
@@ -323,7 +339,6 @@ function App() {
           element={<Terms />}
         />
 
-
         {/* ==================================================
             ADMIN SETTINGS
         ================================================== */}
@@ -343,10 +358,11 @@ function App() {
           WEBSITE FOOTER
       ========================== */}
 
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isDownloadPage && (
+        <Footer />
+      )}
     </>
   );
 }
 
 export default App;
-

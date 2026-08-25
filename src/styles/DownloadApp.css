@@ -1,0 +1,231 @@
+/* ===========================
+   DOWNLOAD APP PAGE
+=========================== */
+
+.download-app-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background: #f4f7fb;
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.download-app-card {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 45px 35px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.10);
+    box-sizing: border-box;
+}
+
+/* ===========================
+   APP ICON
+=========================== */
+
+.download-app-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 24px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+/* ===========================
+   TITLE
+=========================== */
+
+.download-app-card h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.download-app-subtitle {
+    margin: 12px 0 28px;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ===========================
+   INSTALL BUTTON
+=========================== */
+
+.download-install-btn {
+    width: 100%;
+    min-height: 55px;
+    padding: 14px 20px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.download-install-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+.download-install-btn:active {
+    transform: translateY(0);
+}
+
+/* ===========================
+   HELP TEXT
+=========================== */
+
+.download-help {
+    margin: 15px 0 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ===========================
+   INSTALLED MESSAGE
+=========================== */
+
+.download-installed {
+    padding: 14px 16px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ===========================
+   FEATURES
+=========================== */
+
+.download-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.download-features div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+
+    padding: 15px 8px;
+
+    background: #f8fafc;
+    border-radius: 12px;
+
+    font-size: 22px;
+}
+
+.download-features span {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 600px) {
+
+    .download-app-page {
+        padding: 20px 15px;
+    }
+
+    .download-app-card {
+        padding: 35px 22px;
+        border-radius: 20px;
+    }
+
+    .download-app-icon {
+        width: 95px;
+        height: 95px;
+        border-radius: 20px;
+    }
+
+    .download-app-card h1 {
+        font-size: 29px;
+    }
+
+    .download-app-subtitle {
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+    .download-install-btn {
+        min-height: 52px;
+        font-size: 15px;
+    }
+
+    .download-features {
+        gap: 8px;
+        margin-top: 28px;
+    }
+
+    .download-features div {
+        padding: 12px 5px;
+        font-size: 19px;
+    }
+
+    .download-features span {
+        font-size: 11px;
+    }
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark .download-app-page {
+    background: #0f172a;
+}
+
+body.dark .download-app-card {
+    background: #1e293b;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .download-app-card h1 {
+    color: #ffffff;
+}
+
+body.dark .download-app-subtitle,
+body.dark .download-help {
+    color: #cbd5e1;
+}
+
+body.dark .download-features div {
+    background: #334155;
+}
+
+body.dark .download-features span {
+    color: #e2e8f0;
+}
+
+body.dark .download-installed {
+    background: #14532d;
+    color: #bbf7d0;
+}
