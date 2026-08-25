@@ -22,16 +22,7 @@ function AdminDashboard() {
   const [jobs, setJobs] = useState([]);
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
-
-  // ==========================
-  // LOADING STATE
-  // ==========================
-
   const [loading, setLoading] = useState(true);
-
-  // ==========================
-  // Fetch Dashboard Data
-  // ==========================
 
   useEffect(() => {
     fetchDashboardData();
@@ -41,26 +32,14 @@ function AdminDashboard() {
     try {
       setLoading(true);
 
-      // ==========================
-      // Get Admin Login Token
-      // ==========================
-
       const token = localStorage.getItem("adminToken");
 
-      // Check admin token
       if (!token) {
         console.log("❌ No admin login token found");
-
         alert("Please login first.");
-
         navigate("/admin");
-
         return;
       }
-
-      // ==========================
-      // Authorization Header
-      // ==========================
 
       const config = {
         headers: {
@@ -68,71 +47,50 @@ function AdminDashboard() {
         },
       };
 
-      // ==========================
-      // API Requests
-      // ==========================
-
       const [jobsRes, usersRes, applicationsRes] =
         await Promise.all([
           axios.get(
             "https://job-portal-backend-qlnk.onrender.com/api/jobs"
           ),
-
           axios.get(
             "https://job-portal-backend-qlnk.onrender.com/api/auth/users",
             config
           ),
-
           axios.get(
             "https://job-portal-backend-qlnk.onrender.com/api/applications",
             config
           ),
         ]);
 
-      // ==========================
-      // Save Data
-      // ==========================
-
       setJobs(jobsRes.data.jobs || []);
-
       setUsers(usersRes.data.users || []);
-
       setApplications(
         applicationsRes.data.applications || []
       );
 
       console.log("✅ Dashboard Data Loaded");
-
     } catch (error) {
-      console.log(
-        "Dashboard Data Error:",
-        error
-      );
-
+      console.log("Dashboard Data Error:", error);
       console.log(
         "Server Response:",
         error.response?.data
       );
 
-      // Token invalid / expired
       if (error.response?.status === 401) {
         alert(
           "Your admin login session has expired. Please login again."
         );
 
         localStorage.removeItem("adminToken");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("adminUser");
 
         navigate("/admin");
       }
-
     } finally {
       setLoading(false);
     }
   };
-
-  // ==========================
-  // Company Count
-  // ==========================
 
   const companyCount = [
     ...new Set(
@@ -142,19 +100,11 @@ function AdminDashboard() {
     ),
   ].length;
 
-  // ==========================
-  // Shortlisted Count
-  // ==========================
-
   const shortlistedCount =
     applications.filter(
       (application) =>
         application.status === "Shortlisted"
     ).length;
-
-  // ==========================
-  // Recent Jobs
-  // ==========================
 
   const recentJobs = [...jobs]
     .sort(
@@ -164,10 +114,6 @@ function AdminDashboard() {
     )
     .slice(0, 5);
 
-  // ==========================
-  // Recent Applications
-  // ==========================
-
   const recentApplications =
     [...applications]
       .sort(
@@ -176,10 +122,6 @@ function AdminDashboard() {
           new Date(a.createdAt)
       )
       .slice(0, 5);
-
-  // ==========================
-  // Status Class
-  // ==========================
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -200,26 +142,13 @@ function AdminDashboard() {
   return (
     <div className="admin-layout">
 
-      {/* ==========================
-          SIDEBAR
-      ========================== */}
-
       <AdminSidebar />
-
-      {/* ==========================
-          CONTENT
-      ========================== */}
 
       <div className="admin-content">
 
         <AdminNavbar />
 
-        {/* ==========================
-            LOADING MESSAGE
-        ========================== */}
-
         {loading ? (
-
           <div
             style={{
               textAlign: "center",
@@ -239,9 +168,7 @@ function AdminDashboard() {
               Please wait while dashboard data is loading.
             </p>
           </div>
-
         ) : (
-
           <>
 
             {/* ==========================
@@ -286,32 +213,18 @@ function AdminDashboard() {
                 RECENT JOBS
             ========================== */}
 
-            <div className="recent-section">
+            <div className="recent-section dashboard-section">
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "20px",
-                }}
-              >
+              <div className="dashboard-section-header">
 
                 <div>
-
                   <h2>
                     Recent Jobs
                   </h2>
 
-                  <p
-                    style={{
-                      color: "#64748b",
-                      marginTop: "5px",
-                    }}
-                  >
+                  <p>
                     Latest jobs added to the portal
                   </p>
-
                 </div>
 
                 <button
@@ -325,31 +238,25 @@ function AdminDashboard() {
 
               </div>
 
-              <div
-                style={{
-                  overflowX: "auto",
-                }}
-              >
+              {/* DESKTOP TABLE */}
+
+              <div className="dashboard-table-wrapper dashboard-desktop-table">
 
                 <table>
 
                   <thead>
-
                     <tr>
                       <th>Job</th>
                       <th>Company</th>
                       <th>Location</th>
                       <th>Type</th>
                     </tr>
-
                   </thead>
 
                   <tbody>
 
                     {recentJobs.length > 0 ? (
-
                       recentJobs.map((job) => (
-
                         <tr key={job._id}>
 
                           <td>
@@ -369,13 +276,9 @@ function AdminDashboard() {
                           </td>
 
                         </tr>
-
                       ))
-
                     ) : (
-
                       <tr>
-
                         <td
                           colSpan="4"
                           style={{
@@ -385,14 +288,58 @@ function AdminDashboard() {
                         >
                           No Jobs Found
                         </td>
-
                       </tr>
-
                     )}
 
                   </tbody>
 
                 </table>
+
+              </div>
+
+              {/* MOBILE CARDS */}
+
+              <div className="dashboard-mobile-list">
+
+                {recentJobs.length > 0 ? (
+                  recentJobs.map((job) => (
+                    <div
+                      className="dashboard-mobile-card"
+                      key={job._id}
+                    >
+
+                      <div className="mobile-card-title">
+                        {job.title || "N/A"}
+                      </div>
+
+                      <div className="mobile-card-row">
+                        <span>Company</span>
+                        <strong>
+                          {job.company || "N/A"}
+                        </strong>
+                      </div>
+
+                      <div className="mobile-card-row">
+                        <span>Location</span>
+                        <strong>
+                          {job.location || "N/A"}
+                        </strong>
+                      </div>
+
+                      <div className="mobile-card-row">
+                        <span>Type</span>
+                        <strong>
+                          {job.jobType || "N/A"}
+                        </strong>
+                      </div>
+
+                    </div>
+                  ))
+                ) : (
+                  <div className="dashboard-empty">
+                    No Jobs Found
+                  </div>
+                )}
 
               </div>
 
@@ -402,32 +349,18 @@ function AdminDashboard() {
                 RECENT APPLICATIONS
             ========================== */}
 
-            <div className="recent-section">
+            <div className="recent-section dashboard-section">
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "20px",
-                }}
-              >
+              <div className="dashboard-section-header">
 
                 <div>
-
                   <h2>
                     Recent Applications
                   </h2>
 
-                  <p
-                    style={{
-                      color: "#64748b",
-                      marginTop: "5px",
-                    }}
-                  >
+                  <p>
                     Latest applications received
                   </p>
-
                 </div>
 
                 <button
@@ -441,16 +374,13 @@ function AdminDashboard() {
 
               </div>
 
-              <div
-                style={{
-                  overflowX: "auto",
-                }}
-              >
+              {/* DESKTOP TABLE */}
+
+              <div className="dashboard-table-wrapper dashboard-desktop-table">
 
                 <table>
 
                   <thead>
-
                     <tr>
                       <th>Applicant</th>
                       <th>Job</th>
@@ -458,13 +388,11 @@ function AdminDashboard() {
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
-
                   </thead>
 
                   <tbody>
 
                     {recentApplications.length > 0 ? (
-
                       recentApplications.map(
                         (application) => {
 
@@ -473,37 +401,32 @@ function AdminDashboard() {
                             "Pending";
 
                           return (
-
                             <tr
-                              key={
-                                application._id
-                              }
+                              key={application._id}
                             >
 
                               <td>
                                 {
-                                  application.fullName
-                                }
-                              </td>
-
-                              <td>
-                                {
-                                  application
-                                    .jobId?.title ||
+                                  application.fullName ||
                                   "N/A"
                                 }
                               </td>
 
                               <td>
                                 {
-                                  application
-                                    .jobId?.company ||
+                                  application.jobId?.title ||
                                   "N/A"
                                 }
                               </td>
 
                               <td>
+                                {
+                                  application.jobId?.company ||
+                                  "N/A"
+                                }
+                              </td>
 
+                              <td>
                                 <span
                                   className={`application-status ${getStatusClass(
                                     currentStatus
@@ -511,11 +434,9 @@ function AdminDashboard() {
                                 >
                                   {currentStatus}
                                 </span>
-
                               </td>
 
                               <td>
-
                                 <button
                                   className="details-btn"
                                   onClick={() =>
@@ -526,19 +447,14 @@ function AdminDashboard() {
                                 >
                                   View
                                 </button>
-
                               </td>
 
                             </tr>
-
                           );
                         }
                       )
-
                     ) : (
-
                       <tr>
-
                         <td
                           colSpan="5"
                           style={{
@@ -548,9 +464,7 @@ function AdminDashboard() {
                         >
                           No Applications Found
                         </td>
-
                       </tr>
-
                     )}
 
                   </tbody>
@@ -559,10 +473,87 @@ function AdminDashboard() {
 
               </div>
 
+              {/* MOBILE CARDS */}
+
+              <div className="dashboard-mobile-list">
+
+                {recentApplications.length > 0 ? (
+                  recentApplications.map(
+                    (application) => {
+
+                      const currentStatus =
+                        application.status ||
+                        "Pending";
+
+                      return (
+                        <div
+                          className="dashboard-mobile-card"
+                          key={application._id}
+                        >
+
+                          <div className="mobile-card-title">
+                            {application.fullName ||
+                              "N/A"}
+                          </div>
+
+                          <div className="mobile-card-row">
+                            <span>Job</span>
+                            <strong>
+                              {
+                                application.jobId?.title ||
+                                "N/A"
+                              }
+                            </strong>
+                          </div>
+
+                          <div className="mobile-card-row">
+                            <span>Company</span>
+                            <strong>
+                              {
+                                application.jobId?.company ||
+                                "N/A"
+                              }
+                            </strong>
+                          </div>
+
+                          <div className="mobile-card-row">
+                            <span>Status</span>
+
+                            <span
+                              className={`application-status ${getStatusClass(
+                                currentStatus
+                              )}`}
+                            >
+                              {currentStatus}
+                            </span>
+                          </div>
+
+                          <button
+                            className="details-btn mobile-view-btn"
+                            onClick={() =>
+                              navigate(
+                                `/admin/applications/${application._id}`
+                              )
+                            }
+                          >
+                            View Application
+                          </button>
+
+                        </div>
+                      );
+                    }
+                  )
+                ) : (
+                  <div className="dashboard-empty">
+                    No Applications Found
+                  </div>
+                )}
+
+              </div>
+
             </div>
 
           </>
-
         )}
 
       </div>
