@@ -1,39 +1,21 @@
 const Application = require("../models/Application");
 const Job = require("../models/job");
-const nodemailer = require("nodemailer");
 
 require("dotenv").config();
 
 // ===============================
-// BREVO SMTP EMAIL CONFIGURATION
+// BREVO API EMAIL CONFIGURATION
 // ===============================
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: false,
+const BREVO_API_URL =
+  "https://api.brevo.com/v3/smtp/email";
 
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const EMAIL_FROM =
+  process.env.SMTP_FROM ||
+  "jobportal2601@gmail.com";
 
 // ===============================
-// VERIFY EMAIL CONNECTION
-// ===============================
-
-transporter.verify((error) => {
-  if (error) {
-    console.log("❌ EMAIL CONFIGURATION ERROR:");
-    console.log(error.message);
-  } else {
-    console.log("✅ BREVO EMAIL SERVER READY");
-  }
-});
-
-// ===============================
-// EMAIL SENDER
+// SEND EMAIL HELPER
 // ===============================
 
 const sendEmail = async ({
@@ -42,12 +24,63 @@ const sendEmail = async ({
   html,
 }) => {
   try {
-    const info = await transporter.sendMail({
-      from: `"Job Portal" <${process.env.SMTP_FROM}>`,
-      to,
-      subject,
-      html,
-    });
+    if (!process.env.BREVO_API_KEY) {
+      console.log(
+        "❌ BREVO_API_KEY is missing"
+      );
+
+      return {
+        success: false,
+        error: "BREVO_API_KEY is missing",
+      };
+    }
+
+    const response = await fetch(
+      BREVO_API_URL,
+      {
+        method: "POST",
+
+        headers: {
+          accept: "application/json",
+          "api-key":
+            process.env.BREVO_API_KEY,
+          "content-type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          sender: {
+            name: "Job Portal",
+            email: EMAIL_FROM,
+          },
+
+          to: [
+            {
+              email: to,
+            },
+          ],
+
+          subject: subject,
+
+          htmlContent: html,
+        }),
+      }
+    );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      console.log(
+        "❌ BREVO API EMAIL ERROR:",
+        data
+      );
+
+      return {
+        success: false,
+        error: data,
+      };
+    }
 
     console.log(
       "✅ EMAIL SENT SUCCESSFULLY:",
@@ -55,13 +88,13 @@ const sendEmail = async ({
     );
 
     console.log(
-      "📧 MESSAGE ID:",
-      info.messageId
+      "📧 BREVO MESSAGE ID:",
+      data.messageId
     );
 
     return {
       success: true,
-      data: info,
+      data,
     };
 
   } catch (error) {
@@ -84,7 +117,6 @@ const sendEmail = async ({
 
 const applyJob = async (req, res) => {
   try {
-
     const {
       fullName,
       email,
@@ -100,7 +132,8 @@ const applyJob = async (req, res) => {
     if (!req.user || !req.user.id) {
       return res.status(401).json({
         success: false,
-        message: "User not authenticated",
+        message:
+          "User not authenticated",
       });
     }
 
@@ -111,7 +144,8 @@ const applyJob = async (req, res) => {
     if (!jobId) {
       return res.status(400).json({
         success: false,
-        message: "Job ID is required",
+        message:
+          "Job ID is required",
       });
     }
 
@@ -151,7 +185,8 @@ const applyJob = async (req, res) => {
       resumePath =
         `/uploads/resumes/${req.file.filename}`;
     } else if (req.body.resume) {
-      resumePath = req.body.resume;
+      resumePath =
+        req.body.resume;
     }
 
     // ===============================
@@ -177,7 +212,6 @@ const applyJob = async (req, res) => {
     let companyName = "Company";
 
     try {
-
       const job =
         await Job.findById(jobId);
 
@@ -188,96 +222,91 @@ const applyJob = async (req, res) => {
         companyName =
           job.company || "Company";
       }
-
     } catch (jobError) {
-
       console.log(
         "JOB DETAILS ERROR:",
         jobError.message
       );
-
     }
 
     // ===============================
     // APPLICATION EMAIL
     // ===============================
 
+    let emailResult = null;
+
     if (email) {
+      emailResult =
+        await sendEmail({
+          to: email,
 
-      sendEmail({
+          subject:
+            `Application Received - ${jobTitle}`,
 
-        to: email,
+          html: `
+            <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
+              <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
 
-        subject:
-          `Application Received - ${jobTitle}`,
-
-        html: `
-          <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
-            <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-
-              <div style="background:#2563eb;padding:25px;text-align:center;">
-
-                <h1 style="margin:0;color:#ffffff;font-size:26px;">
-                  🎉 Application Received
-                </h1>
-
-              </div>
-
-              <div style="padding:30px;">
-
-                <p style="margin:0 0 15px;color:#334155;font-size:16px;">
-                  Hi <strong>${fullName}</strong>,
-                </p>
-
-                <p style="color:#475569;font-size:15px;line-height:1.7;">
-                  Thank you for applying through our Job Portal.
-                  Your application has been successfully received.
-                </p>
-
-                <div style="margin:25px 0;padding:20px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">
-
-                  <p style="margin:8px 0;color:#334155;">
-                    <strong>Job:</strong> ${jobTitle}
-                  </p>
-
-                  <p style="margin:8px 0;color:#334155;">
-                    <strong>Company:</strong> ${companyName}
-                  </p>
-
-                  <p style="margin:8px 0;color:#334155;">
-                    <strong>Applicant:</strong> ${fullName}
-                  </p>
-
-                  <p style="margin:8px 0;color:#334155;">
-                    <strong>Email:</strong> ${email}
-                  </p>
-
+                <div style="background:#2563eb;padding:25px;text-align:center;">
+                  <h1 style="margin:0;color:#ffffff;font-size:26px;">
+                    🎉 Application Received
+                  </h1>
                 </div>
 
-                <p style="color:#475569;font-size:15px;line-height:1.7;">
-                  Our team will review your application.
-                  If your profile is shortlisted, you will be contacted
-                  with the next steps.
-                </p>
+                <div style="padding:30px;">
 
-                <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
-
-                  <p style="margin:0;color:#64748b;font-size:14px;">
-                    Best regards,
+                  <p style="margin:0 0 15px;color:#334155;font-size:16px;">
+                    Hi <strong>${fullName}</strong>,
                   </p>
 
-                  <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
-                    Job Portal Team
+                  <p style="color:#475569;font-size:15px;line-height:1.7;">
+                    Thank you for applying through our Job Portal.
+                    Your application has been successfully received.
                   </p>
+
+                  <div style="margin:25px 0;padding:20px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">
+
+                    <p style="margin:8px 0;color:#334155;">
+                      <strong>Job:</strong> ${jobTitle}
+                    </p>
+
+                    <p style="margin:8px 0;color:#334155;">
+                      <strong>Company:</strong> ${companyName}
+                    </p>
+
+                    <p style="margin:8px 0;color:#334155;">
+                      <strong>Applicant:</strong> ${fullName}
+                    </p>
+
+                    <p style="margin:8px 0;color:#334155;">
+                      <strong>Email:</strong> ${email}
+                    </p>
+
+                  </div>
+
+                  <p style="color:#475569;font-size:15px;line-height:1.7;">
+                    Our team will review your application.
+                    If your profile is shortlisted, you will be contacted
+                    with the next steps.
+                  </p>
+
+                  <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
+
+                    <p style="margin:0;color:#64748b;font-size:14px;">
+                      Best regards,
+                    </p>
+
+                    <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
+                      Job Portal Team
+                    </p>
+
+                  </div>
 
                 </div>
-
               </div>
             </div>
-          </div>
-        `,
-      });
-
+          `,
+        });
     }
 
     // ===============================
@@ -285,14 +314,12 @@ const applyJob = async (req, res) => {
     // ===============================
 
     return res.status(201).json({
-
       success: true,
-
       message:
         "Application Submitted Successfully 🎉",
-
       application,
-
+      emailSent:
+        emailResult?.success || false,
     });
 
   } catch (error) {
@@ -303,11 +330,8 @@ const applyJob = async (req, res) => {
     );
 
     return res.status(500).json({
-
       success: false,
-
       message: error.message,
-
     });
   }
 };
@@ -316,34 +340,27 @@ const applyJob = async (req, res) => {
 // Get Applications
 // ===============================
 
-const getApplications = async (req, res) => {
-
+const getApplications = async (
+  req,
+  res
+) => {
   try {
-
     if (!req.user || !req.user.id) {
-
       return res.status(401).json({
-
         success: false,
-
         message:
           "User not authenticated",
-
       });
     }
 
     let query = {};
 
     if (req.user.role === "admin") {
-
       query = {};
-
     } else {
-
       query = {
         userId: req.user.id,
       };
-
     }
 
     const applications =
@@ -361,14 +378,10 @@ const getApplications = async (req, res) => {
         });
 
     res.status(200).json({
-
       success: true,
-
       count:
         applications.length,
-
       applications,
-
     });
 
   } catch (error) {
@@ -379,11 +392,8 @@ const getApplications = async (req, res) => {
     );
 
     res.status(500).json({
-
       success: false,
-
       message: error.message,
-
     });
   }
 };
@@ -396,9 +406,7 @@ const getApplicationById = async (
   req,
   res
 ) => {
-
   try {
-
     const application =
       await Application.findById(
         req.params.id
@@ -413,14 +421,10 @@ const getApplicationById = async (
         );
 
     if (!application) {
-
       return res.status(404).json({
-
         success: false,
-
         message:
           "Application not found",
-
       });
     }
 
@@ -429,23 +433,16 @@ const getApplicationById = async (
       application.userId?._id.toString() !==
         req.user.id.toString()
     ) {
-
       return res.status(403).json({
-
         success: false,
-
         message:
           "You are not authorized to view this application.",
-
       });
     }
 
     res.status(200).json({
-
       success: true,
-
       application,
-
     });
 
   } catch (error) {
@@ -456,11 +453,8 @@ const getApplicationById = async (
     );
 
     res.status(500).json({
-
       success: false,
-
       message: error.message,
-
     });
   }
 };
@@ -471,7 +465,6 @@ const getApplicationById = async (
 
 const updateApplicationStatus =
   async (req, res) => {
-
     try {
 
       // ===============================
@@ -479,46 +472,34 @@ const updateApplicationStatus =
       // ===============================
 
       if (req.user.role !== "admin") {
-
         return res.status(403).json({
-
           success: false,
-
           message:
             "Only admin can update application status.",
-
         });
       }
 
-      const { status } = req.body;
+      const { status } =
+        req.body;
 
       // ===============================
       // ALLOWED STATUSES
       // ===============================
 
       const allowedStatuses = [
-
         "Pending",
-
         "Reviewed",
-
         "Shortlisted",
-
         "Rejected",
-
       ];
 
       if (
         !allowedStatuses.includes(status)
       ) {
-
         return res.status(400).json({
-
           success: false,
-
           message:
             "Invalid application status",
-
         });
       }
 
@@ -532,14 +513,10 @@ const updateApplicationStatus =
         );
 
       if (!application) {
-
         return res.status(404).json({
-
           success: false,
-
           message:
             "Application not found",
-
         });
       }
 
@@ -557,7 +534,8 @@ const updateApplicationStatus =
       // UPDATE STATUS
       // ===============================
 
-      application.status = status;
+      application.status =
+        status;
 
       await application.save();
 
@@ -576,13 +554,11 @@ const updateApplicationStatus =
           );
 
         if (job) {
-
           jobTitle =
             job.title || "Job";
 
           companyName =
             job.company || "Company";
-
         }
 
       } catch (jobError) {
@@ -598,114 +574,116 @@ const updateApplicationStatus =
       // SHORTLISTED EMAIL
       // ===============================
 
+      let emailResult = null;
+
       if (
         status === "Shortlisted" &&
         statusChanged &&
         application.email
       ) {
 
-        await sendEmail({
+        emailResult =
+          await sendEmail({
 
-          to: application.email,
+            to:
+              application.email,
 
-          subject:
-            `🎉 You Have Been Shortlisted - ${jobTitle}`,
+            subject:
+              `🎉 You Have Been Shortlisted - ${jobTitle}`,
 
-          html: `
-            <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
-              <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+            html: `
+              <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
+                <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
 
-                <div style="background:#16a34a;padding:25px;text-align:center;">
+                  <div style="background:#16a34a;padding:25px;text-align:center;">
 
-                  <h1 style="margin:0;color:#ffffff;font-size:26px;">
-                    🎉 Congratulations!
-                  </h1>
+                    <h1 style="margin:0;color:#ffffff;font-size:26px;">
+                      🎉 Congratulations!
+                    </h1>
 
-                  <p style="margin:8px 0 0;color:#ffffff;font-size:16px;">
-                    Your application has been shortlisted
-                  </p>
-
-                </div>
-
-                <div style="padding:30px;">
-
-                  <p style="margin:0 0 15px;color:#334155;font-size:16px;">
-                    Hi <strong>${application.fullName}</strong>,
-                  </p>
-
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    We are pleased to inform you that your application has been shortlisted for the following position.
-                  </p>
-
-                  <div style="margin:25px 0;padding:20px;background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;">
-
-                    <p style="margin:8px 0;color:#334155;">
-                      <strong>Job:</strong> ${jobTitle}
-                    </p>
-
-                    <p style="margin:8px 0;color:#334155;">
-                      <strong>Company:</strong> ${companyName}
-                    </p>
-
-                    <p style="margin:8px 0;color:#334155;">
-                      <strong>Applicant:</strong> ${application.fullName}
-                    </p>
-
-                    <p style="margin:8px 0;color:#334155;">
-
-                      <strong>Status:</strong>
-
-                      <span style="color:#16a34a;font-weight:bold;">
-                        Shortlisted
-                      </span>
-
+                    <p style="margin:8px 0 0;color:#ffffff;font-size:16px;">
+                      Your application has been shortlisted
                     </p>
 
                   </div>
 
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    Congratulations on reaching the next stage of our hiring process. Your profile has been reviewed by our recruitment team and we found your application suitable for this position.
-                  </p>
+                  <div style="padding:30px;">
 
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    Our team will contact you shortly with further details regarding the next steps, interview schedule, or any additional information required from you.
-                  </p>
-
-                  <div style="margin:25px 0;padding:18px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-
-                    <p style="margin:0;color:#475569;font-size:14px;line-height:1.6;">
-
-                      <strong>Important:</strong>
-
-                      Please keep checking your email and phone for further communication from our recruitment team.
-
+                    <p style="margin:0 0 15px;color:#334155;font-size:16px;">
+                      Hi <strong>${application.fullName}</strong>,
                     </p>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      We are pleased to inform you that your application has been shortlisted for the following position.
+                    </p>
+
+                    <div style="margin:25px 0;padding:20px;background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;">
+
+                      <p style="margin:8px 0;color:#334155;">
+                        <strong>Job:</strong> ${jobTitle}
+                      </p>
+
+                      <p style="margin:8px 0;color:#334155;">
+                        <strong>Company:</strong> ${companyName}
+                      </p>
+
+                      <p style="margin:8px 0;color:#334155;">
+                        <strong>Applicant:</strong> ${application.fullName}
+                      </p>
+
+                      <p style="margin:8px 0;color:#334155;">
+
+                        <strong>Status:</strong>
+
+                        <span style="color:#16a34a;font-weight:bold;">
+                          Shortlisted
+                        </span>
+
+                      </p>
+
+                    </div>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      Congratulations on reaching the next stage of our hiring process. Your profile has been reviewed by our recruitment team and we found your application suitable for this position.
+                    </p>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      Our team will contact you shortly with further details regarding the next steps, interview schedule, or any additional information required from you.
+                    </p>
+
+                    <div style="margin:25px 0;padding:18px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+
+                      <p style="margin:0;color:#475569;font-size:14px;line-height:1.6;">
+
+                        <strong>Important:</strong>
+
+                        Please keep checking your email and phone for further communication from our recruitment team.
+
+                      </p>
+
+                    </div>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      We appreciate your interest in this opportunity and wish you the very best for the next stage.
+                    </p>
+
+                    <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
+
+                      <p style="margin:0;color:#64748b;font-size:14px;">
+                        Best regards,
+                      </p>
+
+                      <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
+                        Job Portal Team
+                      </p>
+
+                    </div>
 
                   </div>
-
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    We appreciate your interest in this opportunity and wish you the very best for the next stage.
-                  </p>
-
-                  <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
-
-                    <p style="margin:0;color:#64748b;font-size:14px;">
-                      Best regards,
-                    </p>
-
-                    <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
-                      Job Portal Team
-                    </p>
-
-                  </div>
-
                 </div>
               </div>
-            </div>
-          `,
-
-        });
-
+            `,
+          });
       }
 
       // ===============================
@@ -718,84 +696,84 @@ const updateApplicationStatus =
         application.email
       ) {
 
-        await sendEmail({
+        emailResult =
+          await sendEmail({
 
-          to: application.email,
+            to:
+              application.email,
 
-          subject:
-            `Application Update - ${jobTitle}`,
+            subject:
+              `Application Update - ${jobTitle}`,
 
-          html: `
-            <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
-              <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+            html: `
+              <div style="margin:0;padding:30px 15px;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
+                <div style="max-width:600px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
 
-                <div style="background:#dc2626;padding:25px;text-align:center;">
+                  <div style="background:#dc2626;padding:25px;text-align:center;">
 
-                  <h1 style="margin:0;color:#ffffff;font-size:26px;">
-                    Application Update
-                  </h1>
-
-                </div>
-
-                <div style="padding:30px;">
-
-                  <p style="margin:0 0 15px;color:#334155;font-size:16px;">
-                    Hi <strong>${application.fullName}</strong>,
-                  </p>
-
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    Thank you for taking the time to apply through our Job Portal.
-                  </p>
-
-                  <div style="margin:25px 0;padding:20px;background:#fef2f2;border-radius:12px;border:1px solid #fecaca;">
-
-                    <p style="margin:8px 0;color:#334155;">
-                      <strong>Job:</strong> ${jobTitle}
-                    </p>
-
-                    <p style="margin:8px 0;color:#334155;">
-                      <strong>Company:</strong> ${companyName}
-                    </p>
-
-                    <p style="margin:8px 0;color:#334155;">
-
-                      <strong>Status:</strong>
-
-                      <span style="color:#dc2626;font-weight:bold;">
-                        Rejected
-                      </span>
-
-                    </p>
+                    <h1 style="margin:0;color:#ffffff;font-size:26px;">
+                      Application Update
+                    </h1>
 
                   </div>
 
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    After careful consideration, we regret to inform you that your application was not selected for this position at this time.
-                  </p>
+                  <div style="padding:30px;">
 
-                  <p style="color:#475569;font-size:15px;line-height:1.7;">
-                    We appreciate your interest in our Job Portal and encourage you to apply for other suitable opportunities in the future.
-                  </p>
-
-                  <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
-
-                    <p style="margin:0;color:#64748b;font-size:14px;">
-                      Best regards,
+                    <p style="margin:0 0 15px;color:#334155;font-size:16px;">
+                      Hi <strong>${application.fullName}</strong>,
                     </p>
 
-                    <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
-                      Job Portal Team
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      Thank you for taking the time to apply through our Job Portal.
                     </p>
+
+                    <div style="margin:25px 0;padding:20px;background:#fef2f2;border-radius:12px;border:1px solid #fecaca;">
+
+                      <p style="margin:8px 0;color:#334155;">
+                        <strong>Job:</strong> ${jobTitle}
+                      </p>
+
+                      <p style="margin:8px 0;color:#334155;">
+                        <strong>Company:</strong> ${companyName}
+                      </p>
+
+                      <p style="margin:8px 0;color:#334155;">
+
+                        <strong>Status:</strong>
+
+                        <span style="color:#dc2626;font-weight:bold;">
+                          Rejected
+                        </span>
+
+                      </p>
+
+                    </div>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      After careful consideration, we regret to inform you that your application was not selected for this position at this time.
+                    </p>
+
+                    <p style="color:#475569;font-size:15px;line-height:1.7;">
+                      We appreciate your interest in our Job Portal and encourage you to apply for other suitable opportunities in the future.
+                    </p>
+
+                    <div style="margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
+
+                      <p style="margin:0;color:#64748b;font-size:14px;">
+                        Best regards,
+                      </p>
+
+                      <p style="margin:5px 0 0;color:#2563eb;font-size:15px;font-weight:bold;">
+                        Job Portal Team
+                      </p>
+
+                    </div>
 
                   </div>
-
                 </div>
               </div>
-            </div>
-          `,
-
-        });
-
+            `,
+          });
       }
 
       // ===============================
@@ -827,9 +805,13 @@ const updateApplicationStatus =
         statusChanged
       ) {
 
-        responseMessage =
-          "Application shortlisted and email sent successfully.";
-
+        if (emailResult?.success) {
+          responseMessage =
+            "Application shortlisted and email sent successfully.";
+        } else {
+          responseMessage =
+            "Application shortlisted, but email could not be sent.";
+        }
       }
 
       if (
@@ -837,9 +819,13 @@ const updateApplicationStatus =
         statusChanged
       ) {
 
-        responseMessage =
-          "Application rejected and email sent successfully.";
-
+        if (emailResult?.success) {
+          responseMessage =
+            "Application rejected and email sent successfully.";
+        } else {
+          responseMessage =
+            "Application rejected, but email could not be sent.";
+        }
       }
 
       if (!statusChanged) {
@@ -860,6 +846,9 @@ const updateApplicationStatus =
 
         application:
           updatedApplication,
+
+        emailSent:
+          emailResult?.success || false,
 
       });
 
@@ -961,15 +950,9 @@ const deleteApplication =
 // ===============================
 
 module.exports = {
-
   applyJob,
-
   getApplications,
-
   getApplicationById,
-
   updateApplicationStatus,
-
   deleteApplication,
-
 };
