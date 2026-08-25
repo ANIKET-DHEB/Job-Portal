@@ -42,18 +42,18 @@ function AdminDashboard() {
       setLoading(true);
 
       // ==========================
-      // Get Login Token
+      // Get Admin Login Token
       // ==========================
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
 
-      // Check token
+      // Check admin token
       if (!token) {
-        console.log("❌ No login token found");
+        console.log("❌ No admin login token found");
 
         alert("Please login first.");
 
-        navigate("/login");
+        navigate("/admin");
 
         return;
       }
@@ -117,12 +117,12 @@ function AdminDashboard() {
       // Token invalid / expired
       if (error.response?.status === 401) {
         alert(
-          "Your login session has expired. Please login again."
+          "Your admin login session has expired. Please login again."
         );
 
-        localStorage.removeItem("token");
+        localStorage.removeItem("adminToken");
 
-        navigate("/login");
+        navigate("/admin");
       }
 
     } finally {
@@ -463,8 +463,7 @@ function AdminDashboard() {
 
                   <tbody>
 
-                    {recentApplications.length >
-                    0 ? (
+                    {recentApplications.length > 0 ? (
 
                       recentApplications.map(
                         (application) => {
