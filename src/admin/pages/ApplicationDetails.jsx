@@ -17,19 +17,11 @@ function ApplicationDetails() {
   const [updating, setUpdating] = useState(false);
 
   // ==========================
-  // Get Token
+  // Get ADMIN JWT Token
   // ==========================
 
-  const token = localStorage.getItem("token");
-
-  // ==========================
-  // Authorization Config
-  // ==========================
-
-  const authConfig = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const getAdminToken = () => {
+    return localStorage.getItem("adminToken");
   };
 
   // ==========================
@@ -45,14 +37,30 @@ function ApplicationDetails() {
       setLoading(true);
 
       // ==========================
-      // Check Token
+      // Get Admin Token
+      // ==========================
+
+      const token = getAdminToken();
+
+      // ==========================
+      // Check Admin Token
       // ==========================
 
       if (!token) {
-        alert("Please login again.");
-        navigate("/login");
+        alert("Admin session not found. Please login again.");
+        navigate("/admin");
         return;
       }
+
+      // ==========================
+      // Authorization Config
+      // ==========================
+
+      const authConfig = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
       // ==========================
       // Get Application
@@ -90,18 +98,37 @@ function ApplicationDetails() {
       // ==========================
 
       if (error.response?.status === 401) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("adminUser");
+
         alert(
-          "Your login session has expired. Please login again."
+          "Your admin login session has expired. Please login again."
         );
 
-        localStorage.removeItem("token");
-
-        navigate("/login");
+        navigate("/admin");
 
         return;
       }
 
-      alert("Failed to load application.");
+      // ==========================
+      // Forbidden
+      // ==========================
+
+      if (error.response?.status === 403) {
+        alert(
+          "You are not authorized to view this application."
+        );
+
+        navigate("/admin/applications");
+
+        return;
+      }
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to load application."
+      );
 
     } finally {
       setLoading(false);
@@ -117,14 +144,30 @@ function ApplicationDetails() {
       setUpdating(true);
 
       // ==========================
-      // Check Token
+      // Get Admin Token
       // ==========================
 
+      const token = getAdminToken();
+
       if (!token) {
-        alert("Please login again.");
-        navigate("/login");
+        alert(
+          "Admin session not found. Please login again."
+        );
+
+        navigate("/admin");
+
         return;
       }
+
+      // ==========================
+      // Authorization Config
+      // ==========================
+
+      const authConfig = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
       // ==========================
       // Update Application Status
@@ -156,6 +199,7 @@ function ApplicationDetails() {
       );
 
       alert(
+        res.data.message ||
         "Application status updated successfully!"
       );
 
@@ -171,13 +215,15 @@ function ApplicationDetails() {
       );
 
       if (error.response?.status === 401) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("adminUser");
+
         alert(
-          "Your login session has expired. Please login again."
+          "Your admin login session has expired. Please login again."
         );
 
-        localStorage.removeItem("token");
-
-        navigate("/login");
+        navigate("/admin");
 
         return;
       }
@@ -390,8 +436,8 @@ function ApplicationDetails() {
                 <strong>
                   {application.createdAt
                     ? new Date(
-                      application.createdAt
-                    ).toLocaleDateString()
+                        application.createdAt
+                      ).toLocaleDateString()
                     : "N/A"}
                 </strong>
 
@@ -488,39 +534,39 @@ function ApplicationDetails() {
 
           <div className="details-card">
 
-  <h2>
-    Resume
-  </h2>
+            <h2>
+              Resume
+            </h2>
 
-  {application.resume &&
-  application.resume !== "Resume Upload Coming Soon" ? (
+            {application.resume &&
+            application.resume !== "Resume Upload Coming Soon" ? (
 
-    <a
-      href={
-        application.resume.startsWith("http")
-          ? application.resume
-          : `https://job-portal-backend-qlnk.onrender.com${
-              application.resume.startsWith("/uploads/")
-                ? application.resume
-                : `/uploads/resumes/${application.resume}`
-            }`
-      }
-      className="resume-btn"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      📄 View Resume
-    </a>
+              <a
+                href={
+                  application.resume.startsWith("http")
+                    ? application.resume
+                    : `https://job-portal-backend-qlnk.onrender.com${
+                        application.resume.startsWith("/uploads/")
+                          ? application.resume
+                          : `/uploads/resumes/${application.resume}`
+                      }`
+                }
+                className="resume-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📄 View Resume
+              </a>
 
-  ) : (
+            ) : (
 
-    <p className="empty-text">
-      No resume available.
-    </p>
+              <p className="empty-text">
+                No resume available.
+              </p>
 
-  )}
+            )}
 
-</div>
+          </div>
 
           {/* ==========================
               COVER LETTER
@@ -603,4 +649,3 @@ function ApplicationDetails() {
 }
 
 export default ApplicationDetails;
-
