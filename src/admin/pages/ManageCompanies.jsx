@@ -12,16 +12,7 @@ function ManageCompanies() {
 
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
-
-  // ==========================
-  // LOADING STATE
-  // ==========================
-
   const [loading, setLoading] = useState(true);
-
-  // ==========================
-  // Fetch Jobs
-  // ==========================
 
   useEffect(() => {
     fetchJobs();
@@ -77,6 +68,7 @@ function ManageCompanies() {
     );
 
     if (existingCompany) {
+
       existingCompany.jobs += 1;
 
       const jobLocation = String(
@@ -95,6 +87,7 @@ function ManageCompanies() {
       }
 
     } else {
+
       const jobLocation = String(
         job.location || ""
       ).trim();
@@ -138,10 +131,6 @@ function ManageCompanies() {
       );
     });
 
-  // ==========================
-  // Render
-  // ==========================
-
   return (
     <div className="admin-layout">
 
@@ -159,20 +148,13 @@ function ManageCompanies() {
 
         <AdminNavbar />
 
-        <div className="recent-section">
+        <div className="recent-section manage-companies-section">
 
           {/* ==========================
               HEADER
           ========================== */}
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
+          <div className="manage-page-header">
 
             <div>
 
@@ -180,12 +162,7 @@ function ManageCompanies() {
                 Manage Companies
               </h2>
 
-              <p
-                style={{
-                  marginTop: "5px",
-                  color: "#64748b",
-                }}
-              >
+              <p>
                 {loading
                   ? "Loading companies..."
                   : `Total Companies: ${companies.length}`}
@@ -201,42 +178,42 @@ function ManageCompanies() {
 
           <input
             type="text"
+            className="admin-search-input"
             placeholder="Search company or location..."
             value={String(search || "")}
             onChange={(e) =>
               setSearch(e.target.value)
             }
-            style={{
-              width: "100%",
-              padding: "14px 16px",
-              borderRadius: "10px",
-              border:
-                "1px solid #dbe4f0",
-              marginBottom: "20px",
-              fontSize: "15px",
-              outline: "none",
-            }}
           />
 
           {/* ==========================
               COMPANY TABLE
           ========================== */}
 
-          <div
-            style={{
-              overflowX: "auto",
-            }}
-          >
+          <div className="admin-table-container">
 
-            <table>
+            <table className="admin-data-table companies-data-table">
 
               <thead>
 
                 <tr>
-                  <th>Company</th>
-                  <th>Total Jobs</th>
-                  <th>Locations</th>
-                  <th>Action</th>
+
+                  <th>
+                    Company
+                  </th>
+
+                  <th>
+                    Total Jobs
+                  </th>
+
+                  <th>
+                    Locations
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
                 </tr>
 
               </thead>
@@ -251,25 +228,13 @@ function ManageCompanies() {
 
                   <tr>
 
-                    <td
-                      colSpan="4"
-                      style={{
-                        textAlign:
-                          "center",
-                        padding: "40px",
-                      }}
-                    >
+                    <td colSpan="4">
 
                       <h3>
                         ⏳ Loading Companies...
                       </h3>
 
-                      <p
-                        style={{
-                          marginTop: "8px",
-                          color: "#64748b",
-                        }}
-                      >
+                      <p>
                         Please wait while companies are loading.
                       </p>
 
@@ -292,49 +257,64 @@ function ManageCompanies() {
 
                         {/* Company */}
 
-                        <td>
+                        <td data-label="Company">
 
-                          <strong>
-                            {company.name}
-                          </strong>
+                          <span className="mobile-table-value">
+
+                            <strong>
+                              {company.name}
+                            </strong>
+
+                          </span>
 
                         </td>
 
                         {/* Total Jobs */}
 
-                        <td>
-                          {company.jobs}
+                        <td data-label="Total Jobs">
+
+                          <span className="mobile-table-value">
+
+                            {company.jobs}
+
+                          </span>
+
                         </td>
 
                         {/* Locations */}
 
-                        <td>
+                        <td data-label="Locations">
 
-                          {company.locations.length >
-                          0
-                            ? company.locations.join(
-                                ", "
-                              )
-                            : "N/A"}
+                          <span className="mobile-table-value">
+
+                            {company.locations.length > 0
+                              ? company.locations.join(", ")
+                              : "N/A"}
+
+                          </span>
 
                         </td>
 
                         {/* Action */}
 
-                        <td>
+                        <td data-label="Action">
 
-                          <button
-                            className="dashboard-view-btn"
-                            onClick={() =>
-                              navigate(
-                                `/admin/jobs?company=${encodeURIComponent(
-                                  company.name
-                                )}`
-                              )
-                            }
-                          >
-                            View Jobs
-                          </button>
+                          <div className="mobile-action-buttons">
+
+                            <button
+                              className="dashboard-view-btn"
+                              onClick={() =>
+                                navigate(
+                                  `/admin/jobs?company=${encodeURIComponent(
+                                    company.name
+                                  )}`
+                                )
+                              }
+                            >
+                              View Jobs
+                            </button>
+
+                          </div>
 
                         </td>
 
@@ -351,15 +331,10 @@ function ManageCompanies() {
 
                   <tr>
 
-                    <td
-                      colSpan="4"
-                      style={{
-                        textAlign:
-                          "center",
-                        padding: "30px",
-                      }}
-                    >
+                    <td colSpan="4">
+
                       No Companies Found
+
                     </td>
 
                   </tr>

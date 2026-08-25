@@ -9,11 +9,6 @@ import "../../styles/Admin.css";
 function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
-
-  // ==========================
-  // LOADING STATE
-  // ==========================
-
   const [loading, setLoading] = useState(true);
 
   // ==========================
@@ -33,14 +28,12 @@ function ManageUsers() {
       );
 
       setUsers(res.data.users || []);
-
     } catch (error) {
       console.log("FETCH USERS ERROR:", error);
 
       setUsers([]);
 
       alert("Failed to load users");
-
     } finally {
       setLoading(false);
     }
@@ -65,9 +58,11 @@ function ManageUsers() {
       alert("User Deleted Successfully");
 
       fetchUsers();
-
     } catch (error) {
-      console.log(error);
+      console.log(
+        "DELETE USER ERROR:",
+        error
+      );
 
       alert("Failed to delete user");
     }
@@ -100,20 +95,13 @@ function ManageUsers() {
 
         <AdminNavbar />
 
-        <div className="recent-section">
+        <div className="recent-section manage-users-section">
 
           {/* ==========================
               HEADER
           ========================== */}
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
+          <div className="manage-page-header">
 
             <div>
 
@@ -121,12 +109,7 @@ function ManageUsers() {
                 Manage Users
               </h2>
 
-              <p
-                style={{
-                  marginTop: "5px",
-                  color: "#64748b",
-                }}
-              >
+              <p>
                 {loading
                   ? "Loading users..."
                   : `Total Users: ${users.length}`}
@@ -142,41 +125,42 @@ function ManageUsers() {
 
           <input
             type="text"
+            className="admin-search-input"
             placeholder="Search users by name or email..."
             value={search}
             onChange={(e) =>
               setSearch(e.target.value)
             }
-            style={{
-              width: "100%",
-              padding: "14px 16px",
-              borderRadius: "10px",
-              border: "1px solid #dbe4f0",
-              marginBottom: "20px",
-              fontSize: "15px",
-              outline: "none",
-            }}
           />
 
           {/* ==========================
               USERS TABLE
           ========================== */}
 
-          <div
-            style={{
-              overflowX: "auto",
-            }}
-          >
+          <div className="admin-table-container">
 
-            <table>
+            <table className="admin-data-table">
 
               <thead>
 
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Action</th>
+
+                  <th>
+                    Name
+                  </th>
+
+                  <th>
+                    Email
+                  </th>
+
+                  <th>
+                    Role
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
                 </tr>
 
               </thead>
@@ -228,43 +212,56 @@ function ManageUsers() {
                       key={user._id}
                     >
 
-                      <td>
-                        {user.name}
+                      {/* NAME */}
+
+                      <td data-label="Name">
+
+                        <span className="mobile-table-value">
+                          {user.name || "N/A"}
+                        </span>
+
                       </td>
 
-                      <td>
-                        {user.email}
+                      {/* EMAIL */}
+
+                      <td data-label="Email">
+
+                        <span className="mobile-table-value">
+                          {user.email || "N/A"}
+                        </span>
+
                       </td>
 
-                      <td>
+                      {/* ROLE */}
+
+                      <td data-label="Role">
 
                         <span
-                          style={{
-                            background: "#dbeafe",
-                            color: "#1d4ed8",
-                            padding: "6px 12px",
-                            borderRadius: "20px",
-                            fontSize: "13px",
-                            fontWeight: "600",
-                          }}
+                          className="user-role-badge"
                         >
                           User
                         </span>
 
                       </td>
 
-                      <td>
+                      {/* ACTION */}
 
-                        <button
-                          className="apply-btn"
-                          onClick={() =>
-                            deleteUser(
-                              user._id
-                            )
-                          }
-                        >
-                          Delete
-                        </button>
+                      <td data-label="Action">
+
+                        <div className="mobile-action-buttons">
+
+                          <button
+                            className="apply-btn"
+                            onClick={() =>
+                              deleteUser(
+                                user._id
+                              )
+                            }
+                          >
+                            Delete
+                          </button>
+
+                        </div>
 
                       </td>
 
