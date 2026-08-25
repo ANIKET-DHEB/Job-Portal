@@ -814,3 +814,241 @@ body.dark .danger-card {
 
 
 
+/* ===========================
+   MANAGE APPLICATIONS
+=========================== */
+
+.admin-table-container{
+    width:100%;
+    overflow-x:auto;
+}
+
+.admin-data-table{
+    width:100%;
+}
+
+.admin-search-input{
+    box-sizing:border-box;
+}
+
+.mobile-action-buttons{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.mobile-action-buttons button{
+    margin-left:0 !important;
+}
+
+.mobile-table-value{
+    display:inline;
+}
+
+/* ===========================
+   MOBILE APPLICATION CARDS
+=========================== */
+
+@media(max-width:768px){
+
+    .manage-applications-section{
+        padding:12px;
+    }
+
+    .manage-page-header{
+        margin-bottom:15px !important;
+    }
+
+    .manage-page-header h2{
+        font-size:20px;
+    }
+
+    .manage-page-header p{
+        font-size:12px;
+    }
+
+    .admin-search-input{
+        padding:11px 12px !important;
+        font-size:13px !important;
+        margin-bottom:15px !important;
+    }
+
+    .admin-table-container{
+        overflow:visible;
+    }
+
+    .admin-data-table,
+    .admin-data-table thead,
+    .admin-data-table tbody,
+    .admin-data-table tr,
+    .admin-data-table td{
+        display:block;
+        width:100%;
+        box-sizing:border-box;
+    }
+
+    .admin-data-table{
+        min-width:0 !important;
+        border-collapse:separate;
+        border-spacing:0;
+    }
+
+    .admin-data-table thead{
+        display:none;
+    }
+
+    .admin-data-table tbody tr{
+        background:#ffffff;
+        border:1px solid #e2e8f0;
+        border-radius:14px;
+        padding:14px;
+        margin-bottom:14px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .admin-data-table tbody td{
+        display:flex;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap:12px;
+        padding:9px 0;
+        border:none !important;
+        width:100% !important;
+        font-size:13px;
+        color:#334155;
+        white-space:normal !important;
+        word-break:break-word;
+        overflow-wrap:anywhere;
+    }
+
+    .admin-data-table tbody td::before{
+        content:attr(data-label);
+        font-weight:700;
+        color:#64748b;
+        min-width:75px;
+        flex-shrink:0;
+    }
+
+    .mobile-table-value{
+        text-align:right;
+        max-width:65%;
+    }
+
+    .admin-data-table tbody td:nth-child(1){
+        padding-top:0;
+    }
+
+    .admin-data-table tbody td:nth-child(7){
+        border-top:1px solid #e2e8f0 !important;
+        margin-top:5px;
+        padding-top:13px;
+    }
+
+    .admin-data-table tbody td:nth-child(7)::before{
+        padding-top:6px;
+    }
+
+    .mobile-action-buttons{
+        display:flex;
+        justify-content:flex-end;
+        flex-wrap:wrap;
+        gap:8px;
+    }
+
+    .mobile-action-buttons button{
+        margin:0 !important;
+        padding:7px 12px;
+        font-size:12px;
+        border-radius:7px;
+    }
+
+    .application-status{
+        min-width:0;
+        width:auto;
+        max-width:160px;
+        padding:7px 9px;
+        font-size:12px;
+    }
+
+    /* Loading / empty rows */
+    .admin-data-table tbody tr:has(td[colspan]){
+        display:block;
+        padding:20px 12px;
+    }
+
+    .admin-data-table tbody tr:has(td[colspan]) td{
+        display:block;
+        text-align:center !important;
+    }
+
+    .admin-data-table tbody tr:has(td[colspan]) td::before{
+        display:none;
+    }
+}
+
+/* ===========================
+   VERY SMALL MOBILE
+=========================== */
+
+@media(max-width:480px){
+
+    .manage-applications-section{
+        padding:10px;
+    }
+
+    .admin-data-table tbody tr{
+        padding:12px;
+        border-radius:12px;
+    }
+
+    .admin-data-table tbody td{
+        font-size:12px;
+        padding:8px 0;
+    }
+
+    .admin-data-table tbody td::before{
+        min-width:65px;
+        font-size:11px;
+    }
+
+    .mobile-table-value{
+        max-width:62%;
+        font-size:12px;
+    }
+
+    .mobile-action-buttons{
+        gap:6px;
+    }
+
+    .mobile-action-buttons button{
+        padding:6px 10px;
+        font-size:11px;
+    }
+
+    .application-status{
+        font-size:11px;
+        padding:6px 8px;
+    }
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark .admin-data-table tbody tr{
+    background:#1e293b;
+    border-color:#334155;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25);
+}
+
+body.dark .admin-data-table tbody td{
+    color:#e2e8f0;
+}
+
+body.dark .admin-data-table tbody td::before{
+    color:#94a3b8;
+}
+
+body.dark .admin-data-table tbody td:nth-child(7){
+    border-top-color:#334155 !important;
+}
